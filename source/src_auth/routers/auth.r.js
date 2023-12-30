@@ -11,6 +11,7 @@ routers.post("/request", authController.postRequestPage);
 routers.get("/profile", authController.getProfilePage); 
 routers.get("/update-profile", authController.getUpdateProfilePage); 
 routers.post("/update-profile", authController.postUpdateProfilePage); 
+routers.get("/credential", authController.getCredentialPage); 
 
 // Validate user
 routers.post("/user-validate", authController.findUserByUsername)

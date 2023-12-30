@@ -3,8 +3,7 @@ const {
   hashPassword,
   comparePassword,
   createToken,
-  getUserFromToken,
-  saveCookies,
+  getUserFromToken, 
 } = require("./../utils/utilityFunctions");
 const fs = require("fs");
 const path = require("path");
@@ -127,6 +126,11 @@ async function postUpdateProfilePage(req, res, next) {
   }
 }
 
+function getCredentialPage(req, res, next) {
+  const token = req.query.token;
+  res.render("credential", { token });
+}
+
 async function findUserByUsername(req, res, next) {
   const username = req.body.username;
   const user = await User.findUserByUsername(username);
@@ -152,4 +156,5 @@ module.exports = {
   getUpdateProfilePage,
   postUpdateProfilePage,
   findUserByUsername,
+  getCredentialPage,
 };

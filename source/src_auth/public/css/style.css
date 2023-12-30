@@ -249,3 +249,171 @@ a, p, li, ul, h1,h2, h3, h4, h5, span{
     margin-left: 1rem;
     margin-right: 1rem;
 }
+
+/* Link animation effect */
+.link-effect-container {
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    transform: translateX(-50%);  
+	display: grid;
+	place-items: center;
+    z-index: 10;
+}
+
+.link-effect {
+    border-radius: 0.3rem;
+    position: relative;
+    padding: 0.7rem 1.5rem;
+    box-shadow: 0 0 .4rem .1rem rgba(0, 0, 0, 0.4);
+    text-transform: uppercase;
+    letter-spacing: .1rem;
+    overflow: hidden;
+    transition: 0.2s;
+    transform: scale(2);
+    color: #fff;      
+} 
+
+.link-effect span:nth-child(1) {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 100%;
+	height: .3rem;
+    border-radius: .3rem;
+	background: linear-gradient(to right, #c733f4d8, #3bb4ffbb);
+	animation: animate1 2s linear infinite;
+}
+@keyframes animate1 {
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+.link-effect span:nth-child(2) {
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 100%;
+	width: .3rem;
+    border-radius: .3rem;
+	background: linear-gradient(to bottom, #3bb4ffbb, #4bff3bc0);
+	animation: animate2 2s linear infinite;
+	animation-delay: 1s;
+}
+@keyframes animate2 {
+	0% {
+		transform: translateY(-100%);
+	}
+	100% {
+		transform: translateY(100%);
+	}
+}
+
+.link-effect span:nth-child(3) {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 100%;
+	height: .3rem;
+    border-radius: .3rem;
+	background: linear-gradient(to left, #4bff3bc0, #ffa03bc7);
+	animation: animate3 2s linear infinite;
+}
+@keyframes animate3 {
+	0% {
+		transform: translateX(100%);
+	}
+	100% {
+		transform: translateX(-100%);
+	}
+}
+
+.link-effect span:nth-child(4) {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: .3rem;
+    border-radius: .3rem;
+	background: linear-gradient(to top, #ffa03bc7, #c733f4d8);
+	animation: animate4 2s linear infinite;
+	animation-delay: 1s;
+}
+@keyframes animate4 {
+	0% {
+		transform: translateY(100%);
+	}
+	100% {
+		transform: translateY(-100%);
+	}
+} 
+
+
+.link-effect span.title {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+    font-size: 0.9rem;
+}
+
+.link-effect .liquid {
+    position: absolute;
+    top: -60px;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    background: #7293ff;
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.7);
+    z-index: -1;
+    transition: 0.6s;
+}
+
+.link-effect .liquid::after,
+.link-effect .liquid::before {
+    position: absolute;
+    content: "";
+    width: 200%;
+    height: 200%;
+    top: 0;
+    left: 0;
+    transform: translate(-25%, -75%);
+}
+
+.link-effect .liquid::after {
+    border-radius: 45%;
+    background: rgba(20, 20, 20, 1);
+    box-shadow: 0 0 10px 5px #7293ff, inset 0 0 5px #7293ff;
+    animation: animate 5s linear infinite;
+    opacity: 0.8;
+}
+
+.link-effect .liquid::before {
+    border-radius: 40%;
+    box-shadow: 0 0 10px rgba(26, 26, 26, 0.5),
+        inset 0 0 5px rgba(26, 26, 26, 0.5);
+    background: rgba(26, 26, 26, 0.5);
+
+    animation: animate 7s linear infinite;
+}
+
+@keyframes animate {
+    0% {
+        transform: translate(-25%, -75%) rotate(0);
+    }
+    100% {
+        transform: translate(-25%, -75%) rotate(360deg);
+    }
+}
+.link-effect:hover .liquid {
+    top: -5.5rem;
+}
+
+.link-effect:hover {
+    box-shadow: 0 0 5px #7293ff, inset 0 0 5px #7293ff;
+    transition-delay: 0.2s;
+    letter-spacing: .25rem;
+}

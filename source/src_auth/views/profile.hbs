@@ -1,7 +1,16 @@
-    <nav class="nav nav-borders column-gap-4">
-        <a class="nav-link ms-0 active" href="/">My profile</a> 
-        <a class="nav-link ms-0" href="#">Credential</a> 
-    </nav>  
+<nav class="nav nav-borders column-gap-4">
+    <a class="nav-link ms-0 active" href="#">My profile</a>
+    <a class="nav-link ms-0" href="/credential?token={{user.token}}">Credential</a>
+</nav>
+<div class="link-effect-container">
+    <a href="http://localhost:21461?token={{user.token}}" class="link-effect"><span> </span>
+        <span> </span>
+        <span> </span>
+        <span> </span>
+        <span class="title">Play game</span>
+        <div class="liquid"></div>
+    </a>
+</div>
 <div class="container">
     <h1 class="mt-5 mb-4">Quản lí profile</h1>
     <div class="row column-gap-3">
@@ -31,7 +40,7 @@
                     <div class="col-sm-9">
                         <p class="text-muted mb-0">{{user.nickname}}</p>
                     </div>
-                </div> 
+                </div>
                 <hr>
                 <div class="change text-center mt-5">
                     <a href="/update-profile?token={{user.token}}" class="btn btn-info text-white">Update profile</a>
