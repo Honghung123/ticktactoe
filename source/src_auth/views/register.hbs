@@ -1,11 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    Register page
-</body>
-</html>
+<div class="wrapper-login">
+    <div class="logo">
+        <img class="avatar rotate-90"
+            src="https://play-lh.googleusercontent.com/zPxLgj5nvl20ahJV7aFC6S5mD8kii5CEEDj25j1P9CYAfXL9sdDuO-8eES0r4DhJHrU"
+            alt="">
+    </div>
+    <div class="text-center mt-4 name">
+        Register
+    </div>
+    <form class="p-3 mt-3">
+        <div class="form-field">
+            <span class="form-label">Name: </span>
+            <input type="text" name="name" placeholder="Enter your name" required>
+            <i class="error text-danger">Name must be not empty</i>
+        </div>
+        <div class="form-field">
+            <span class="form-label">Username: </span>
+            <input type="password" name="username" placeholder="Enter your username" required>
+            <i class="error text-danger">Name must be not empty</i>
+        </div>
+        <div class="form-field">
+            <span class="form-label">Password: </span>
+            <input type="password" name="password" placeholder="Enter your password" required>
+            <i class="error text-danger">Name must be not empty</i>
+        </div>
+        <button class="btn mt-5 fs-5">Register</button>
+    </form>
+    <div class="text-center fs-6  text-black">
+        <span>Already have account? </span><a class="fs-6 fw-bold" href="/login">Login</a>
+    </div>
+</div>
+{{> footer }}
+{{> script }}

@@ -84,5 +84,5 @@ app.use(middleware.internalServer);
 // Connection
 const port = process.env.GAME_PORT;
 server.listen(port, () => {
-  console.log(`Server running at ${port}`);
+  console.log(`Server Game is running at ${port}`);
 });

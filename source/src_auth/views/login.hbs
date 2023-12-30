@@ -1,11 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    Login page 
-</body>
-</html>
+<div class="wrapper-login">
+    <div class="logo">
+        <img class="avatar"
+            src="https://play-lh.googleusercontent.com/zPxLgj5nvl20ahJV7aFC6S5mD8kii5CEEDj25j1P9CYAfXL9sdDuO-8eES0r4DhJHrU"
+            alt="">
+    </div>
+    <div class="text-center mt-4 name">
+        Login
+    </div>
+    <form class="p-3 mt-3" action="/login" method="POST" id="form-login">
+        <div class="form-field">
+            <span class="form-label">Username: </span>
+            <input type="text" name="username" id="username" placeholder="Enter your username" required>
+            <i class="error text-danger">Username must be not empty</i>
+        </div>
+        <div class="form-field">
+            <span class="form-label">Password: </span>
+            <input type="password" name="password" id="password" placeholder="Enter your password" required>
+            <i class="error text-danger">Password must be not empty</i>
+        </div>
+        <button class="btn mt-5 fs-5">Login</button>
+    </form>
+    <div class="text-center fs-6  text-black">
+        <span>Dont have account? </span><a class="fs-6 fw-bold" href="/register">Sign up</a>
+    </div>
+</div>
+{{> footer }}
+{{> script }}
+<script>
+    $(() => {
+        async function isUserExist(username) {
+            let result = false;
+            await fetch(`/user/${username}`, {
+                method: "GET"
+            })
+                .then(data => data.json())
+                .then(data => { result = data.username; })
+                .catch(err => { result = false; });
+            return result;
+        }
+        $("#form-login").on('submit', function (e) {
+            e.preventDefault();
+            const username = $("#username").val();
+            const usernameRgx = /^[a-zA-Z][a-zA-Z0-9]{6,}$/
+            if (!username.match(usernameRgx)) {
+                alert("Username phải có ít nhất 7 kí tự");
+            }
+            else if (!isUserExist(username)) {
+                alert("Username không tồn tại")
+            } else {
+                alert("Username is valid");
+            }
+        })
+    })
+</script>

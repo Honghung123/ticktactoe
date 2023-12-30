@@ -44,5 +44,5 @@ app.use(middleware.internalServer);
 // Connection
 const port = process.env.AUTH_PORT;
 https.createServer(credentials, app).listen(port, () => {
-  console.log("Server listening on port " + port);
+  console.log("Server Auth is listening on port " + port);
 });
