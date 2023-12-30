@@ -1,7 +1,6 @@
 const passport = require("passport");
-const User = require("../models/user.m");
-const MyStrategy = require("./strategy");
-const JwtStrategy = require("./jwt_strategy");
+const User = require("../model/game.m");
+const MyStrategy = require("./strategy"); 
 const bcrypt = require("bcrypt");
 const flash = require("express-flash");
 
@@ -10,14 +9,15 @@ passport.serializeUser((user, done) => {
 });
 passport.deserializeUser(async (username, done) => {
   // Retrieve the user from the database using the id
-  const userObj = await User.getUserInfos(username);
+  const userObj = null;
   if (userObj != null) {
     done(null, userObj);
   }
 });
 
 const verifyCallback = async (username, password, done) => {
-  const user = await User.getUserInfos(username);
+  // const user = await User.getUserInfos(username);
+  const user = {password : "123"}
   if (user != null) {
     const match = await bcrypt.compare(password, user.Password);
     if (match) {

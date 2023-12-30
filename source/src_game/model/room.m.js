@@ -1,13 +1,14 @@
 const db = require("../database/db");
-module.exports = class User {
-  constructor(user) {
-    this.username = user.username;
-    this.password = user.password;
-    this.name = user.name;
-    this.nickname = user.nickname;
+module.exports = class Room {
+  constructor(room) {
+    this.id = user.id;
+    this.firstUser = room.firstUser;
+    this.secondUser = room.secondUser;
+      this.viewers = room.viewers;
+      
   }
 
-  static async getUserByUsername(username) {
+  static async getRoom(username) {
     const data = await db.getUserByUsername(User.tableName, username);
     return data;
   }
