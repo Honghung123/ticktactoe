@@ -4,9 +4,9 @@
          "username": "un1",
          "password": "$2b$10$bOXS0/4FwT0mPLlaTGv5kONpAeykSH92rNZXJO3Ic1tthoG204poe",
          "profile": {
-            "nickname": "un1",
+            "nickname": "player",
             "fullname": "User One",
-            "avatar": "https://localhost:3113/src_auth/public/uploads/1.png"
+            "avatar": "./src_auth/public/uploads/1.png"
          }
       },
       {
@@ -15,8 +15,8 @@
          "profile": {
             "nickname": "un2",
             "fullname": "User Two",
-            "avatar": "https://localhost:3113/src_auth/public/uploads/2.png"
+            "avatar": "./src_auth/public/uploads/2.png"
          }
-      } 
+      }
    ]
 }

@@ -1,0 +1,36 @@
+<div class="fullscreen">
+    <div class="position-center bg-white p-5 rounded-4">
+    <h1 class="mb-4">Quản lí profile</h1>
+        <div class="card-body">
+            <form action="update-profile" method="post">
+                <input type="hidden" name="username" value="{{user.username}}">
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Full name:</label>
+                    <input class="p-1 rounded-3" name="fullname" type="text" value="{{user.fullname}}" required>
+                </div>
+                <hr>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Nickname: </label>
+                    <input class="p-1 rounded-3" type="text" name="nickname" value="{{user.nickname}}" required>
+                </div>
+                <hr>
+                <div class="mb-3 form-check p-0">
+                    <label for="">Choose your avatar:</label>
+                    <div class="d-flex flex-wrap-wrap gap-2">
+                    {{#each user.images}} 
+                        <div class="my-border custom-field">
+                            <input class="form-check-input my-border" type="radio" name="avatar" value="{{this}}" required> 
+                            <img src="{{this}}" class="avatar">
+                        </div>
+                    {{/each}}
+                    </div>
+                </div>
+                <hr>
+                <div class="text-center">
+                <button type="submit" class="btn btn-primary mt-2">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>

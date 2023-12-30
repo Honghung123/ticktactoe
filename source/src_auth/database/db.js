@@ -19,7 +19,24 @@ async function insertUser(user) {
     return user;
 }
 
+async function updateUser(user) {
+  let updateUser = null;
+  for (let i = 0; i < data.user_list.length; i++) { 
+    if (data.user_list[i].username == user.username) { 
+      updateUser = data.user_list[i];
+      data.user_list[i].profile.nickname = user.nickname;
+      data.user_list[i].profile.fullname = user.fullname;
+      data.user_list[i].profile.avatar = user.avatar;
+      break;
+    }
+  }
+  dataJSON = JSON.stringify(data, null, 3);
+  await fs.writeFile(path.join(__dirname, "data.json"), dataJSON, "utf-8");
+  return updateUser;
+}
+
 module.exports = {
   findUserByUsername,
   insertUser,
+  updateUser,
 };

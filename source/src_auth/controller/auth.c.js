@@ -59,14 +59,36 @@ async function postRequestPage(req, res, next) {
 }
 function getProfilePage(req, res, next) {
   const token = req.query.token || "";
-  const user = getUserFromToken(token);
+    const user = getUserFromToken(token);
+    user.token = token;
   if (user && token != "") {
     res.render("profile", { user });
   } else {
     res.redirect("login");
   }
 }
-async function postProfilePage(req, res, next) {}
+function getUpdateProfilePage(req, res, next) {
+  const token = req.query.token;
+  const user = getUserFromToken(token);
+    user.images = ["1.png", "2.png", "3.png"].map(file => {
+        return `./src_auth/public/uploads/${file}`;
+  });
+  if (user && token != "") {
+    res.render("update_profile", { user });
+  } else {
+    res.redirect("login");
+  }
+}
+async function postUpdateProfilePage(req, res, next) {
+    const user = await User.updateUser(req.body);
+    const token = createToken({
+        username: user.username,
+        nickname: user.nickname,
+        fullname: user.fullname,
+        avatar: user.avatar
+    });
+    res.redirect(`profile?token=${token}`);
+}
 
 async function findUserByUsername(req, res, next) {
   const username = req.body.username;
@@ -90,6 +112,7 @@ module.exports = {
   getRequestPage,
   postRequestPage,
   getProfilePage,
-  postProfilePage,
+  getUpdateProfilePage,
+  postUpdateProfilePage,
   findUserByUsername,
 };

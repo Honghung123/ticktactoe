@@ -37,4 +37,9 @@ module.exports = class User {
     }
     return null;
   }
+
+  static async updateUser(user) {  
+    const data = await db.updateUser(user);
+    return new User(data);
+  } 
 };
