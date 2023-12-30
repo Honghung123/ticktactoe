@@ -1,4 +1,4 @@
-const db = require("../database/db");
+const db = require("./../database/db");
 module.exports = class User {
   constructor(user) {
     this.username = user.username;
@@ -7,14 +7,13 @@ module.exports = class User {
     this.nickname = user.nickname;
   }
 
-  static async getUserByUsername(username) {
-    const data = await db.getUserByUsername(User.tableName, username);
+  static async findUserByUsername(username) {
+    const data = await db.findUserByUsername(username);
     return data;
   }
 
   static async insertUser(user) {
-    // const data = await db.add(User.tableName, user.Username);
-    const data = null;
+    const data = await db.insertUser(user);
     return data;
   }
 };

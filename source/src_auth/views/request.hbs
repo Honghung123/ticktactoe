@@ -1,0 +1,19 @@
+<div class="fullscreen">
+    <div class="position-center my-request text-center p-3">
+        <h1 class="text-center">Bạn muốn ghi nhớ đăng nhập bao lâu: </h1>
+        <form class="needs-validation" action="/request" method="post">
+            <div class="mb-5 mt-5"> 
+                <select class="form-select w-75 d-block m-auto" name="maxage" required>
+                    <option value="1800" selected>30 phút</option>
+                    <option value="3600">1 giờ</option>
+                    <option value="43200">12 giờ</option>
+                    <option value="86400">1 ngày</option>
+                    <option value="259200">3 ngày</option>
+                    <option value="604800">7 ngày</option> 
+                </select>
+                <input type="hidden" name="token" value="{{token}}"> 
+            </div>
+            <button type="submit" class="btn btn-primary">Xác nhận</button>
+        </form>
+    </div>
+</div>

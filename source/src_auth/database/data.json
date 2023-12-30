@@ -1,0 +1,12 @@
+{
+   "user_list": [
+      {
+         "username": "un1",
+         "password": "$2b$10$bOXS0/4FwT0mPLlaTGv5kONpAeykSH92rNZXJO3Ic1tthoG204poe"
+      },
+      {
+         "username": "un2",
+         "password": "$2b$10$bOXS0/4FwT0mPLlaTGv5kONpAeykSH92rNZXJO3Ic1tthoG204poe"
+      } 
+   ]
+}
