@@ -25,9 +25,8 @@ module.exports.getUserFromToken = token => {
 
 module.exports.saveCookies = (res, token) => {
   res.cookie("jwt", token, {
-    httpOnly: true,
-    secure: false,
-    sameSite: "strict",
+    httpOnly: false,
+    secure: false, 
     maxAge: 60 * 60 * 1000,
   });
 };

@@ -35,8 +35,25 @@ async function updateUser(user) {
   return updateUser;
 }
 
+async function updatePermissions(username, permissions, maxAge) { 
+  let result = false;
+  for (let i = 0; i < data.user_list.length; i++) {
+    if (data.user_list[i].username == username) { 
+      data.user_list[i].permissions = permissions;
+      data.user_list[i].maxAge = maxAge;
+      result = true;
+      console.log("Updated Permissions: " + username);
+      break;
+    }
+  }
+  dataJSON = JSON.stringify(data, null, 3);
+  await fs.writeFile(path.join(__dirname, "data.json"), dataJSON, "utf-8");
+  return result;
+}
+
 module.exports = {
   findUserByUsername,
   insertUser,
   updateUser,
+  updatePermissions,
 };

@@ -1,8 +1,8 @@
 <div class="fullscreen">
     <div class="position-center my-request text-center p-3">
-        <h1 class="text-center">Bạn muốn ghi nhớ đăng nhập bao lâu: </h1>
         <form class="needs-validation" action="/request" method="post">
-            <div class="mb-5 mt-5"> 
+            <h3 class="text-center fw-bold">Bạn muốn ghi nhớ đăng nhập bao lâu: </h3>
+            <div class="mb-5 mt-3"> 
                 <select class="form-select w-75 d-block m-auto" name="maxage" required>
                     <option value="1800" selected>30 phút</option>
                     <option value="3600">1 giờ</option>
@@ -13,6 +13,12 @@
                 </select>
                 <input type="hidden" name="token" value="{{token}}"> 
             </div>
+            <h3 class="text-center fw-bold">Bạn muốn trò chơi được phép truy cập các quyền nào: </h3>
+            <div class="mb-5 mt-3 d-flex justify-content-around m-auto fs-4" > 
+                <input type="checkbox" name="permission" value="nickname" checked>Nickname
+                <input type="checkbox" name="permission" value="fullname">Fullname
+                <input type="checkbox" name="permission" value="avatar" checked>Avartar
+            </div> 
             <button type="submit" class="btn btn-primary">Xác nhận</button>
         </form>
     </div>

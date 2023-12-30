@@ -4,7 +4,10 @@ const {
   comparePassword,
   createToken,
   getUserFromToken,
+  saveCookies,
 } = require("./../utils/utilityFunctions");
+const fs = require("fs");
+const path = require("path");
 
 // Login - Register
 function getLoginPage(req, res, next) {
@@ -18,76 +21,110 @@ async function postLoginPage(req, res, next) {
   const username = req.body.username;
   const password = req.body.password;
   const user = await User.findUserByUsername(username);
-  if (await comparePassword(password, user.password)) {
-    const dto = {
-      username: user.username,
-      fullname: user.fullname,
-      nickname: user.nickname,
-      avatar: user.avatar,
-    };
-    const token = createToken(dto);
+  if (await comparePassword(password, user.password)) { 
+    const token = createToken({ username: user.username }); 
     res.redirect(`/request?token=${token}`);
   } else {
     res.redirect("/login");
   }
 }
+
 async function postRegisterPage(req, res, next) {
-  const username = req.body.username;
-  const password = req.body.password;
-  const fullname = req.body.fullname;
-  const nickname = req.body.nickname;
-  console.log(
-    "Register with username: " +
-      username +
-      " and password: " +
-      password +
-      "nickname: " +
-      nickname +
-      " fullname: " +
-      fullname
-  );
+  const hashedPassword = hashPassword(req.body.password);
+  req.body.password = hashedPassword;
+  const result = await User.insertUser(req.body);
+  if (result) {
+    const token = createToken({ username: result.username });
+    res.redirect(`/request?token=${token}`);
+  } else {
+    res.redirect("/login");
+  }
 }
 
-function getRequestPage(req, res, next) {
-  const token = req.query.token;
+function getRequestPage(req, res, next) { 
+  const token = req.query.token; 
   res.render("request", { token });
 }
+
 async function postRequestPage(req, res, next) {
-  const token = req.body.token;
+  const token = req.body.token;  
+  const user = getUserFromToken(token); 
   const maxAge = req.body.maxage;
-  res.redirect(`profile?token=${token}`);
-}
-function getProfilePage(req, res, next) {
-  const token = req.query.token || "";
-    const user = getUserFromToken(token);
-    user.token = token;
-  if (user && token != "") {
-    res.render("profile", { user });
-  } else {
-    res.redirect("login");
-  }
-}
-function getUpdateProfilePage(req, res, next) {
-  const token = req.query.token;
-  const user = getUserFromToken(token);
-    user.images = ["1.png", "2.png", "3.png"].map(file => {
-        return `./src_auth/public/uploads/${file}`;
-  });
-  if (user && token != "") {
-    res.render("update_profile", { user });
-  } else {
-    res.redirect("login");
-  }
-}
-async function postUpdateProfilePage(req, res, next) {
-    const user = await User.updateUser(req.body);
-    const token = createToken({
-        username: user.username,
-        nickname: user.nickname,
-        fullname: user.fullname,
-        avatar: user.avatar
-    });
+  const permissions = req.body.permission; 
+  const result = await User.updatePermissions(user.username, permissions, maxAge);  
+  if (result) {
     res.redirect(`profile?token=${token}`);
+  } else {
+    res.redirect(`login`);
+  }
+}
+
+async function getProfilePage(req, res, next) {
+  if (req.query.hasOwnProperty("token")) { 
+    const token = req.query.token;
+    const username = getUserFromToken(token);
+    const entity = await User.findUserByUsername(username.username);
+    if (entity) {
+      const user = {
+        username: entity.username,
+        fullname: entity.fullname,
+        nickname: entity.nickname,
+        avatar: entity.avatar,
+        token: token
+      } 
+      res.render("profile", { user });
+    } else {
+      res.redirect("login");
+    }
+  } else {
+    res.redirect("login");
+  }
+}
+
+async function getUpdateProfilePage(req, res, next) {
+  if (req.query.hasOwnProperty("token")) { 
+    const token = req.query.token;
+    const username = getUserFromToken(token);
+    const directory = path.join(__dirname, "./../public/uploads");
+    const filenameArr = [];
+    for (const filename of fs.readdirSync(directory)) {
+      filenameArr.push(filename);
+    }
+    const images = filenameArr.map((file) => {
+      return `./src_auth/public/uploads/${file}`;
+    });
+    const entity = await User.findUserByUsername(username.username);
+    if (entity) {
+      const user = {
+        username: entity.username,
+        fullname: entity.fullname,
+        nickname: entity.nickname,
+        avatar: entity.avatar,
+        images,
+        token,
+      } 
+      res.render("update_profile", { user }); 
+    } else {
+      res.redirect("login");
+    }
+  } else {
+    res.redirect("login");
+  }
+}
+
+async function postUpdateProfilePage(req, res, next) {
+  if (req.body.hasOwnProperty("token")) {
+    const user = await User.updateUser(req.body);
+    const token = req.body.token;
+    if (user) {
+      res.redirect(`profile?token=${token}`);
+    }
+    else {
+      res.redirect("login");
+    }
+  } else {
+    res.redirect("login");
+  }
 }
 
 async function findUserByUsername(req, res, next) {

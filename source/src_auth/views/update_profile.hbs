@@ -4,6 +4,7 @@
         <div class="card-body">
             <form action="update-profile" method="post">
                 <input type="hidden" name="username" value="{{user.username}}">
+                <input type="hidden" name="token" value="{{user.token}}">
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Full name:</label>
                     <input class="p-1 rounded-3" name="fullname" type="text" value="{{user.fullname}}" required>
@@ -16,18 +17,19 @@
                 <hr>
                 <div class="mb-3 form-check p-0">
                     <label for="">Choose your avatar:</label>
-                    <div class="d-flex flex-wrap-wrap gap-2">
+                    <div class="d-flex flex-wrap gap-2">
                     {{#each user.images}} 
                         <div class="my-border custom-field">
                             <input class="form-check-input my-border" type="radio" name="avatar" value="{{this}}" required> 
-                            <img src="{{this}}" class="avatar">
+                            <img src="{{this}}" class="profile">
                         </div>
                     {{/each}}
                     </div>
                 </div>
                 <hr>
                 <div class="text-center">
-                <button type="submit" class="btn btn-primary mt-2">Update</button>
+                <a href="/profile?token={{user.token}}" class="btn btn-danger d-inline-block m-4 mb-0">Cancel</a>
+                <button type="submit" class="btn btn-primary m-4 mb-0">Update</button>
                 </div>
             </form>
         </div>

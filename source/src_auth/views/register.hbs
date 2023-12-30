@@ -7,16 +7,16 @@
     <div class="text-center mt-4 name">
         Register
     </div>
-    <form class="p-3 mt-3">
+    <form class="p-3 mt-3" action="/register" method="post" id="form-register">
         <div class="form-field">
             <span class="form-label">Full Name: </span>
-            <input type="text" name="fullname" placeholder="Enter your full name" required>
-            <i class="error text-danger"></i>
+            <input type="text" name="fullname" id="fullname" placeholder="Enter your full name" required>
+            <i class="error fullname text-danger"></i>
         </div>
         <div class="form-field">
             <span class="form-label">Username: </span>
-            <input type="text" name="username" placeholder="Enter your username" required>
-            <i class="error text-danger"></i>
+            <input type="text" name="username" id="usernames" placeholder="Enter your username" required>
+            <i class="error username text-danger"></i>
         </div>
         <div class="form-field">
             <span class="form-label">Password: </span>
@@ -24,10 +24,10 @@
         </div>
         <div class="form-field">
             <span class="form-label">Nickname: </span>
-            <input type="text" name="nickname" placeholder="Enter your nickname" required>
-            <i class="error text-danger"></i>
+            <input type="text" name="nickname" id="nickname" placeholder="Enter your nickname" required>
+            <i class="error nickname text-danger"></i>
         </div>
-        <button class="btn mt-5 fs-5">Register</button>
+        <button type="submit" class="btn mt-5 fs-5">Register</button>
     </form>
     <div class="text-center fs-6  text-black">
         <span>Already have account? </span><a class="fs-6 fw-bold" href="/login">Login</a>
@@ -35,3 +35,5 @@
 </div>
 {{> footer }}
 {{> script }}
+<script src="./src_auth/public/js/main.js">
+</script>

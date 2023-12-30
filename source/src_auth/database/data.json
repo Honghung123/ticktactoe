@@ -4,10 +4,15 @@
          "username": "un1",
          "password": "$2b$10$bOXS0/4FwT0mPLlaTGv5kONpAeykSH92rNZXJO3Ic1tthoG204poe",
          "profile": {
-            "nickname": "player",
+            "nickname": "honghung123",
             "fullname": "User One",
-            "avatar": "./src_auth/public/uploads/1.png"
-         }
+            "avatar": "./src_auth/public/uploads/3.png"
+         },
+         "permissions": [
+            "nickname",
+            "avatar"
+         ],
+         "maxAge": "1800"
       },
       {
          "username": "un2",
@@ -16,7 +21,23 @@
             "nickname": "un2",
             "fullname": "User Two",
             "avatar": "./src_auth/public/uploads/2.png"
-         }
+         },
+         "permissions": [],
+         "maxAge": "14400"
+      },
+      {
+         "username": "un3",
+         "password": {},
+         "profile": {
+            "nickname": "hong",
+            "fullname": "hong hung",
+            "avatar": "./src_auth/public/uploads/3.png"
+         },
+         "permissions": [
+            "nickname",
+            "fullname"
+         ],
+         "maxAge": "1800"
       }
    ]
 }

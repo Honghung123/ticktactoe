@@ -139,6 +139,8 @@ a, p, li, ul, h1,h2, h3, h4, h5, span{
             color: rgb(97, 97, 97);
         } 
         & i.error{
+            font-size: .75rem;
+            font-weight: bold;
             visibility: hidden;
             position: absolute;
             bottom: 0;
@@ -203,7 +205,7 @@ a, p, li, ul, h1,h2, h3, h4, h5, span{
     border-radius: .8rem;
 }
 
-.avatar{
+.profile{
     width: 5rem;
     height: 5rem;
     border-radius: .3rem;
@@ -223,4 +225,27 @@ a, p, li, ul, h1,h2, h3, h4, h5, span{
     position: relative;
     padding: 1rem 1rem 1rem 3rem;
 
+}
+
+.nav-borders{
+    background-color: rgba(255, 255, 0, 0.516);
+    padding: 0 5rem;
+}
+
+.nav-borders .nav-link.active {
+    color: #0061f2;
+    border-bottom-color: #0061f2;
+}
+
+.nav-borders .nav-link {
+    color: #69707a;
+    border-bottom-width: 0.125rem;
+    border-bottom-style: solid;
+    border-bottom-color: transparent;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
