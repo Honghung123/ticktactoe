@@ -1,11 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Welcome to home page</h1>
-</body>
-</html>
+<div class="container">
+    <div class="grid-chat chat-app mt-3">
+        <div id="plist" class="people-list">
+            <h3 class="fs-4 pb-3">Player online list</h3>
+            <ul class="list-unstyled chat-list mt-2 mb-0">
+                <li class="clearfix">
+                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="avatar">
+                    <div class="about">
+                        <div class="name">Vincent Porter</div>
+                        <div class="status online">Online</div>
+                    </div>
+                </li>
+                <li class="clearfix">
+                    <img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="avatar">
+                    <div class="about">
+                        <div class="name">Aiden Chavez</div>
+                        <div class="status online">Online</div>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+        <div class="message-area">
+            <div class="chat">
+                <h3 class="m-3 fs-4">General Chatting</h3>
+            </div>
+            <div class="chat-history">
+                <ul class="m-b-0">
+                    <li class="left">
+                        <div class="message-data">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
+                            <span class="username">Username 1</span>
+                        </div>
+                        <div class="message"> Hi Aiden, how are you? How is the
+                            project coming along?
+                            <span class="message-time">10:10</span>
+                        </div>
+                    </li>
+                    <li class="">
+                        <div class="message-data">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
+                            <span class="username">Username 1</span>
+                        </div>
+                        <div class="message">Are we meeting today?
+                            <span class="message-time">10:12</span>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="chat-input">
+                <form class="d-flex column-gap-2">
+                    <input type="text" class="form-control" placeholder="Enter text here..." required>
+                    <button class="btn btn-info text-white" type="submit">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
