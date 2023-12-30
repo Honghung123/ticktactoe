@@ -3,7 +3,7 @@ const {
   hashPassword,
   comparePassword,
   createToken,
-  getUserFromToken, 
+  getUserFromToken,
 } = require("./../utils/utilityFunctions");
 const fs = require("fs");
 const path = require("path");
@@ -20,8 +20,8 @@ async function postLoginPage(req, res, next) {
   const username = req.body.username;
   const password = req.body.password;
   const user = await User.findUserByUsername(username);
-  if (await comparePassword(password, user.password)) { 
-    const token = createToken({ username: user.username }); 
+  if (await comparePassword(password, user.password)) {
+    const token = createToken({ username: user.username });
     res.redirect(`/request?token=${token}`);
   } else {
     res.redirect("/login");
@@ -40,17 +40,21 @@ async function postRegisterPage(req, res, next) {
   }
 }
 
-function getRequestPage(req, res, next) { 
-  const token = req.query.token; 
+function getRequestPage(req, res, next) {
+  const token = req.query.token;
   res.render("request", { token });
 }
 
 async function postRequestPage(req, res, next) {
-  const token = req.body.token;  
-  const user = getUserFromToken(token); 
+  const token = req.body.token;
+  const user = getUserFromToken(token);
   const maxAge = req.body.maxage;
-  const permissions = req.body.permission; 
-  const result = await User.updatePermissions(user.username, permissions, maxAge);  
+  const permissions = req.body.permission;
+  const result = await User.updatePermissions(
+    user.username,
+    permissions,
+    maxAge
+  );
   if (result) {
     res.redirect(`profile?token=${token}`);
   } else {
@@ -59,7 +63,7 @@ async function postRequestPage(req, res, next) {
 }
 
 async function getProfilePage(req, res, next) {
-  if (req.query.hasOwnProperty("token")) { 
+  if (req.query.hasOwnProperty("token")) {
     const token = req.query.token;
     const username = getUserFromToken(token);
     const entity = await User.findUserByUsername(username.username);
@@ -69,8 +73,9 @@ async function getProfilePage(req, res, next) {
         fullname: entity.fullname,
         nickname: entity.nickname,
         avatar: entity.avatar,
-        token: token
-      } 
+        token: token,
+        url: `http://localhost:21461/authorize`,
+      };
       res.render("profile", { user });
     } else {
       res.redirect("login");
@@ -81,7 +86,7 @@ async function getProfilePage(req, res, next) {
 }
 
 async function getUpdateProfilePage(req, res, next) {
-  if (req.query.hasOwnProperty("token")) { 
+  if (req.query.hasOwnProperty("token")) {
     const token = req.query.token;
     const username = getUserFromToken(token);
     const directory = path.join(__dirname, "./../public/uploads");
@@ -101,8 +106,8 @@ async function getUpdateProfilePage(req, res, next) {
         avatar: entity.avatar,
         images,
         token,
-      } 
-      res.render("update_profile", { user }); 
+      };
+      res.render("update_profile", { user });
     } else {
       res.redirect("login");
     }
@@ -117,8 +122,7 @@ async function postUpdateProfilePage(req, res, next) {
     const token = req.body.token;
     if (user) {
       res.redirect(`profile?token=${token}`);
-    }
-    else {
+    } else {
       res.redirect("login");
     }
   } else {
@@ -128,7 +132,10 @@ async function postUpdateProfilePage(req, res, next) {
 
 function getCredentialPage(req, res, next) {
   const token = req.query.token;
-  res.render("credential", { token });
+  res.render("credential", {
+    token,
+    url: `http://localhost:21461/authorize`,
+  });
 }
 
 async function findUserByUsername(req, res, next) {
@@ -144,6 +151,47 @@ async function findUserByUsername(req, res, next) {
   }
 }
 
+async function getUserByToken(req, res, next) {
+  const token = req.body.token;
+  console.log("Go get user by token ");
+  const userToken = await getUserFromToken(token);
+  if (userToken != null) {
+    const username = userToken.username;
+    const user = await User.findUserByUsername(username);
+    if (user != null) { 
+      const dto = {
+        username: user.username,
+        maxAge: user.maxAge,
+        get_img_src: false
+      };
+      if (user.permissions.contains("fullname")) {
+        dto.fullname = user.fullname
+      }
+      if (user.permissions.contains("nickname")) { 
+        dto.nickname = user.nickname
+      }
+      if (user.permissions.contains("avatar")) { 
+        dto.avatar = user.avatar
+        dto.get_img_src = true;
+      }
+      console.log(dto);
+      return dto;
+    }
+  } 
+  return null;
+}
+
+async function getImageSource(req, res, next) {
+  const filenameArr = [];
+  for (const filename of fs.readdirSync(directory)) {
+    filenameArr.push(filename);
+  }
+  const images = filenameArr.map((file) => {
+    return `https://localhost:3113/src_auth/public/uploads/${file}`;
+  });
+  return JSON.stringify(images);
+}
+
 module.exports = {
   // GET
   getLoginPage,
@@ -157,4 +205,6 @@ module.exports = {
   postUpdateProfilePage,
   findUserByUsername,
   getCredentialPage,
+  getUserByToken,
+  getImageSource,
 };

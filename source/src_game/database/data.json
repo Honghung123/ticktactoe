@@ -1,0 +1,23 @@
+{
+    "user_list": [
+        {
+            "username": "un2", 
+            "profile": {
+                "avatar": "https://localhost:3113/src_auth/public/uploads/5.png",
+                "nickname": "nickname1",
+                "fullname": "fullname1"
+            },
+            "permissions": [],
+            "color" : "yellow"
+        }
+    ],
+    "online_list": [
+        "un2"
+    ],
+    "rank_list": [
+        {
+            "username" : "un2",
+            "score" : 100
+        }
+    ]
+}

@@ -15,5 +15,7 @@ routers.get("/credential", authController.getCredentialPage);
 
 // Validate user
 routers.post("/user-validate", authController.findUserByUsername)
+routers.post("/get-user-by-token", authController.getUserByToken); 
+routers.post("/get-image-src", authController.getImageSource); 
 
 module.exports = routers;

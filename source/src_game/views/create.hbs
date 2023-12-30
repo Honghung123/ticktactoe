@@ -1,3 +1,4 @@
+{{> navbar }}
 <div class="container">
     <div id="background">
         <div id="board-game">
@@ -17,7 +18,7 @@
             </div>
             <div class="player-section center-pos right"></div>
             <h1 id="playerText" class="text-center text-gradient">Tic Tac Toe</h1>
-            <button id="restartBtn">Restart</button>
+            <button id="restartBtn" class="btn-blue-purple">Restart</button>
             <div id="gameboard" class="game-bg center-pos">
                 <div class="chess" id="0"></div>
                 <div class="chess" id="1"></div>
@@ -33,7 +34,7 @@
         <div id="chat-game">
             <div class="message-area">
                 <div class="chat bg-blue-linear">
-                    <h3 class="m-3 fs-4 text-white">General Chatting</h3>
+                    <h3 class="m-3 fs-4 text-white text-typing-animation">General room chatting</h3>
                 </div>
                 <div class="chat-history">
                     <ul id="message-room">
@@ -66,8 +67,6 @@
             </div>
         </div>
     </div>
-</div>
-<script src="./src_game/public/js/main.js">
-</script>
+</div> 
 <script src="./src_game/public/js/room.js">
 </script>

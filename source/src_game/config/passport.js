@@ -1,11 +1,12 @@
 const passport = require("passport");
-const User = require("../model/game.m");
-const MyStrategy = require("./strategy"); 
-const bcrypt = require("bcrypt");
+const CustomStrategy = require("./strategy");
 const flash = require("express-flash");
+const Player = require("../model/player.m");
 
 passport.serializeUser((user, done) => {
-  done(null, user.Username);
+  console.log("Call this serializeUser method");
+  console.log(user);
+  done(null, user);
 });
 passport.deserializeUser(async (username, done) => {
   // Retrieve the user from the database using the id
@@ -15,26 +16,23 @@ passport.deserializeUser(async (username, done) => {
   }
 });
 
-const verifyCallback = async (username, password, done) => {
-  // const user = await User.getUserInfos(username);
-  const user = {password : "123"}
-  if (user != null) {
-    const match = await bcrypt.compare(password, user.Password);
-    if (match) {
-      return done(null, user);
+const verifyCallback = async (username, done) => {
+  if (username != null) {
+    const player = await Player.getPlayerInfos(username);
+    if (user != null) {
+      return done(null, player);
     }
   }
   return done(null, false);
 };
 
 const customFields = {
-  username: "username",
-  password: "password",
+  token: "token",
 };
 
 module.exports = (app) => {
   app.use(flash());
   app.use(passport.initialize());
   app.use(passport.session());
-  passport.use(new MyStrategy(verifyCallback, customFields)); 
+  passport.use(new CustomStrategy(verifyCallback, customFields));
 };

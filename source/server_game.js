@@ -67,8 +67,7 @@ app.use("/", loginRegistration);
 //     console.log("Client disconnected");
 //   });
 // });
-
-// app.use(require("./middlewares/jwtMiddleware"));
+ 
 // const authorization = require("./middlewares/authorization");
 // app.use(authorization.authorize);
 
