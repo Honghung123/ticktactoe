@@ -7,12 +7,6 @@ const https = require("https");
 const handlebar = require("express-handlebars");
 const fs = require("fs");
 
-// Delete all uploaded files
-const directory = path.join(__dirname, "src_auth/public/uploads");
-for (const file of fs.readdirSync(directory)) {
-  fs.unlinkSync(path.join(directory, file));
-}
-
 // This line is from the Node.js HTTPS documentation.
 const credentials = {
   key: fs.readFileSync("mykey.pem", "utf-8"),

@@ -2,11 +2,21 @@
    "user_list": [
       {
          "username": "un1",
-         "password": "$2b$10$bOXS0/4FwT0mPLlaTGv5kONpAeykSH92rNZXJO3Ic1tthoG204poe"
+         "password": "$2b$10$bOXS0/4FwT0mPLlaTGv5kONpAeykSH92rNZXJO3Ic1tthoG204poe",
+         "profile": {
+            "nickname": "un1",
+            "fullname": "User One",
+            "avatar": "https://localhost:3113/src_auth/public/uploads/1.png"
+         }
       },
       {
          "username": "un2",
-         "password": "$2b$10$bOXS0/4FwT0mPLlaTGv5kONpAeykSH92rNZXJO3Ic1tthoG204poe"
+         "password": "$2b$10$bOXS0/4FwT0mPLlaTGv5kONpAeykSH92rNZXJO3Ic1tthoG204poe",
+         "profile": {
+            "nickname": "un2",
+            "fullname": "User Two",
+            "avatar": "https://localhost:3113/src_auth/public/uploads/2.png"
+         }
       } 
    ]
 }

@@ -14,6 +14,14 @@ module.exports.hashPassword = async (password) => {
 module.exports.createToken = (object) => {
   return jwt.sign(object, process.env.SECRET_KEY);
 };
+module.exports.getUserFromToken = token => {
+  try {
+    const user = jwt.verify(token, process.env.SECRET_KEY);
+    return user;
+  } catch (err) {
+    return null;
+  }
+};
 
 module.exports.saveCookies = (res, token) => {
   res.cookie("jwt", token, {
