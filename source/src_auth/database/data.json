@@ -10,7 +10,6 @@
          },
          "permissions": [
             "nickname",
-            "fullname",
             "avatar"
          ],
          "maxAge": "1800"
@@ -23,7 +22,8 @@
             "fullname": "User Two",
             "avatar": "./src_auth/public/uploads/2.png"
          },
-         "maxAge": "1800"
+         "maxAge": "1800",
+         "permissions": []
       },
       {
          "username": "un3",

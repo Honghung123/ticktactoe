@@ -2,8 +2,8 @@ const db = require("../database/db");
 module.exports = class Player {
   constructor(player) {
     this.username = player.username;
-    this.fullname = player.profile.fullname;
-    this.nickname = player.profile.nickname;
+    this.fullname = player.profile?.fullname || "No display";
+    this.nickname = player.profile?.nickname || "No display";
     this.avatar = player.profile.avatar;
     this.get_img_src = player.profile.get_img_src;
     this.color = player.color;
@@ -18,7 +18,7 @@ module.exports = class Player {
         fullname: player?.fullname || null,
         get_img_src: player.get_img_src,
       },
-      color: player?.color || "yellow",
+      color: player?.color || "lime",
     };
     return entity;
   }
@@ -44,7 +44,7 @@ module.exports = class Player {
   static async insertOrUpdatePlayer(player) {
     const entity = Player.getEntity(player);
     const p = await db.getPlayerInfos(player.username);
-    if (p) { 
+    if (p) {
       await db.updatePlayer(entity);
     } else {
       await db.insertPlayer(entity);
@@ -53,5 +53,9 @@ module.exports = class Player {
 
   static async insertPlayerToOnlineList(username) {
     await db.insertPlayerToOnlineList(username);
+  }
+
+  static async removePlayerFromOnlineList(username) {
+    await db.removePlayerFromOnlineList(username);
   }
 };

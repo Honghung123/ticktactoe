@@ -3,27 +3,26 @@
       {
          "username": "un2",
          "profile": {
-            "avatar": "https://localhost:3113/./src_auth/public/uploads/5.png",
-            "nickname": "nickname1",
-            "fullname": "fullname1",
-            "get_img_src": true
+            "avatar": null,
+            "nickname": null,
+            "fullname": null,
+            "get_img_src": false
          },
-         "color": "yellow "
+         "color": "lime"
       },
       {
          "username": "un1",
          "profile": {
             "avatar": "https://localhost:3113/./src_auth/public/uploads/3.png",
             "nickname": "honghung123",
-            "fullname": "User One",
+            "fullname": null,
             "get_img_src": true
          },
-         "color": "yellow"
+         "color": "lime"
       }
    ],
    "online_list": [
-      "un2",
-      "un1"
+      "un2"
    ],
    "rank_list": [
       {

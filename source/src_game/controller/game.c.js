@@ -1,3 +1,5 @@
+const Player = require("../model/player.m");
+
 // Login - Register
 function loginRegisterPage(req, res, next) {
   res.render("login_register");
@@ -17,8 +19,20 @@ function rankPage(req, res, next) {
     navId: 3,
   });
 }
-function logOut(req, res, next) {
-  res.render("rank");
+async function logOut(req, res, next) {
+  if (req.session.hasOwnProperty("passport")) { 
+    if (req.session.passport.hasOwnProperty("user")) {
+      const username = req.session.passport.user;
+      await Player.removePlayerFromOnlineList(username);
+    }
+  }
+
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/login");
+  });
 }
 
 module.exports = {

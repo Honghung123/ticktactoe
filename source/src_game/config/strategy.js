@@ -31,10 +31,15 @@ module.exports = class CustomStrategy extends Strategy {
         throw new Error("Network response was not ok");
       }
       const data = await response.json(); 
-      if (data) {
+      if (data) { 
         username = data.username;
         await Player.insertOrUpdatePlayer(data);
         await Player.insertPlayerToOnlineList(username);
+        const maxAge = parseInt(data.maxAge);
+        req.session.cookie._expires = new Date(Date.now() + maxAge);
+        req.session.cookie.originalMaxAge = maxAge;
+        console.log(maxAge);
+        console.log(req.session);
       }
     }
     // Call this.success(user, info) if authentication is successful

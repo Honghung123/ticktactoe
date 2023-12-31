@@ -172,7 +172,8 @@ async function getUserByToken(req, res, next) {
       if (user.permissions.includes("avatar")) { 
         dto.avatar = `https://localhost:3113/${user.avatar}`
         dto.get_img_src = true;
-      } 
+      }  
+      console.log(dto);
       res.json(dto);
     } else {
       res.json({});
