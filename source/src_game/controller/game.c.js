@@ -11,16 +11,26 @@ module.exports = function (io) {
       io.on("connection", (client) => {
         client.on("player-has-online", () => {
           const playerOnlineList = Player.getPlayerOnlineList();
-          console.log(playerOnlineList); 
-          const playerInfoList = playerOnlineList.map( playerName => { 
+          const playerInfoList = playerOnlineList.map((playerName) => {
             return Player.getPlayerInfos(playerName);
-          })
-          console.log(playerInfoList);
+          });
           io.emit("update-player-online-list", playerInfoList);
-        }); 
+        });
+
+        client.on("general-chatting", (data) => {
+          data.areYou = false;
+          if (data.username == req.session.passport.user) {
+            data.areYou = true;
+          }
+          data.nickname = Player.getPlayerInfos(data.username).nickname;
+          console.log(data);
+          io.emit("general-chatting", data);
+        });
       });
+      const username = req.session.passport.user;
       res.render("home", {
         navId: 1,
+        username,
       });
     },
 

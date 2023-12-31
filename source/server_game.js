@@ -56,7 +56,7 @@ const loginRegistration = require("./src_game/routers/authorization.r")(io);
 app.use("/", loginRegistration);
       
 const authorization = require("./src_game/middlewares/authorization");
-// app.use(authorization.authorize);
+app.use(authorization.authorize);
 
 // Routing
 const gameRouter = require("./src_game/routers/game.r")(io);

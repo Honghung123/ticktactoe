@@ -10,17 +10,18 @@
                         <div class="name">Vincent Porter</div>
                         <div class="status online">Online</div>
                     </div>
-                </li>  --}}
+                </li> --}}
 
             </ul>
         </div>
         <div class="message-area">
             <div class="chat">
                 <h3 class="m-3 fs-4 text-gradient fw-bold text-typing-animation">General Chatting</h3>
+                <span class="d-none" id="username">{{username}}</span>
             </div>
             <div class="chat-history">
-                <ul class="m-b-0">
-                    <li class="left">
+                <ul class="m-b-0" id="general-chatting">
+                    {{!-- <li class="left">
                         <div class="message-data">
                             <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
                             <span class="username">Username 1</span>
@@ -29,21 +30,22 @@
                             project coming along?
                             <span class="message-time">10:10</span>
                         </div>
-                    </li>
+                    </li> --}}
                     <li class="">
                         <div class="message-data">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
-                            <span class="username">Username 1</span>
+                            <img src="./src_game/public/default/main.png" alt="avatar">
+                            <span class="username">Admin</span>
                         </div>
-                        <div class="message">Are we meeting today?
-                            <span class="message-time">10:12</span>
+                        <div class="message">Welcome to the general chat!
+                            <span class="message-time">23:59</span>
                         </div>
                     </li>
                 </ul>
             </div>
             <div class="chat-input">
-                <form class="d-flex column-gap-2">
-                    <input type="text" class="form-control" placeholder="Enter text here..." required>
+                <form class="d-flex column-gap-2" id="general-chat-form">
+                    <input type="text" id="general-chat-input" class="form-control" placeholder="Enter text here..."
+                        required>
                     <button class="btn btn-info text-white" type="submit">Send</button>
                 </form>
             </div>
@@ -51,11 +53,10 @@
     </div>
 </div>
 <script>
-    const socket = io();
-    socket.emit('player-has-online', {});
+    const client = io();
+    client.emit('player-has-online', {});
 
-    socket.on('update-player-online-list', (data) => {
-        console.log(data);
+    client.on('update-player-online-list', (data) => {
         let playerOnlineList = data.map((player) => {
             return `<li class="clearfix">
                     <img src="${player.avatar}" class="avatar">
@@ -66,5 +67,39 @@
                 </li>`
         });
         $('#player-online-list').html(playerOnlineList.join(''));
+    });
+
+    function renderMessage(message, areYou, nickname) {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        const hh_mm = (hours < 10 ? '0' : '') + hours + ':' + (minutes < 10 ? '0' : '') + minutes;
+        const html = `<li class="${areYou? 'left' : ''}">
+                        <div class="message-data">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
+                            <span class="username">${nickname}</span>
+                        </div>
+                        <div class="message">${message}
+                            <span class="message-time">${hh_mm}</span>
+                        </div>
+                    </li>` ;
+        $('#general-chatting')[0].innerHTML += html;
+    }
+
+    const $generalForm = $("#general-chat-form");
+    const username = $("#username").html()
+    $generalForm.on("submit", e => {
+        e.preventDefault();
+        let message = $("#general-chat-input").val()
+        if (message != "") {
+            const data = { message, username }
+            console.log(data);
+            client.emit('general-chatting', data);
+            $("#general-chat-input").val(""); 
+        }
+    });
+    // Capture broadcast messages from the server
+    client.on('general-chatting', (data) => {
+        renderMessage(data.message, data.areYou, data.nickname);
     });
 </script>
