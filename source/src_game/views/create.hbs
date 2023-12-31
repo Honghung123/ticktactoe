@@ -3,10 +3,41 @@
     <div id="background">
 <div class="container">
     <h1>Tạo bàn game</h1>
+    <span id="username">{{username}}</span>
+    <div class="card border-0">
+        <form action="/create" id="board-ticktack-form" method="post">
+            <input type="hidden" name="username" value="{{username}}">
+            <div class="form-field">
+                <label for="">Thời gian giới hạn mỗi nước cờ(Chưa làm): </label>
+                <select name="time" id="time-go">
+                    <option value="15">15 giây</option>
+                    <option value="30" selected>30 giây</option>
+                    <option value="45">45 giây</option>
+                    <option value="60">1 phút</option>
+                    <option value="90">1 phút 30 giây</option>
+                </select>
+            </div>
+            <div class="form-field">
+                <label for="">Chọn kích thước bàn cờ(Chưa làm):</label>
+                <input type="radio" name="size" id="size"> 3*3
+            </div>
+            <div class="form-field">
+                Hình ảnh bàn cờ (Chưa làm)
+            </div>
+            <div class="form-field">
+                Màu cờ: 
+            </div>
+            <button type="submit" class="btn btn-info mt-3">Tạo ngay</button>
+        </form>
+    </div>
 </div>
 
 </div></div>
 <script>
     const client = io();
-    
+    const username = $("#username").html().trim();
+    $("#board-ticktack-form").on("submit", function(e)){
+        e.preventDefault();
+        io.emit("create-new-board", username);
+    }
 </script>

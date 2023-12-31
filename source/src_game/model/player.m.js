@@ -33,6 +33,17 @@ module.exports = class Player {
     }
   }
 
+  static toOject(player) {
+    return {
+      username: player.username,
+      fullname: player.fullname,
+      nickname: player.nickname,
+      avatar: player.avatar,
+      get_img_src: player.get_img_src,
+      color: player.color,
+    };
+  }
+
   static async insertPlayerIfNotExists(player) {
     const p = await db.getPlayerInfos(player.username);
     if (!p) {
@@ -67,8 +78,28 @@ module.exports = class Player {
     return await db.clearUserOnlineList();
   }
 
-  static async updateProfile(profile) { 
+  static async updateProfile(profile) {
     const data = await db.updatePlayer(profile);
     return new Player(data);
+  }
+
+  static getRoomById(id) {
+    const room = db.getRoomById(id);
+    return {
+      id: room.id,
+      firstPlayer: room.firstPlayer,
+      secondPlayer: room.secondPlayer,
+      viewers: room.viewers,
+    };
+  }
+
+  static getRoomOfPlayer(username) {
+    const room = db.getRoomOfPlayer(username);
+    return {
+      id: room.id,
+      firstPlayer: room.firstPlayer,
+      secondPlayer: room.secondPlayer,
+      viewers: room.viewers,
+    };
   }
 };

@@ -105,6 +105,15 @@ async function insertRoom(player) {
   return insertRoom;
 }
 
+function getRoomOfPlayer(username) {
+  for (const room of data.room_list) {
+    if (room.firstPlayer == username || room.secondPlayer == username) {
+      return room;
+    }
+  }
+  return null;
+}
+
 module.exports = {
   getPlayerInfos,
   insertPlayer,
@@ -116,5 +125,6 @@ module.exports = {
 
   getRoomById,
   getRoomList,
-  insertRoom
+  insertRoom,
+  getRoomOfPlayer,
 };

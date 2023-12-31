@@ -21,7 +21,14 @@ module.exports = function (io) {
       io.emit("general-chatting", data);
     });
 
-    client.on("room-list-update", data => {
+    client.on("room-chatting", (data) => {
+      const player = Player.getPlayerInfos(data.username);
+      data.nickname = player.nickname;
+      data.image = player.avatar;
+      io.emit("room-chatting", data);
+    });
+
+    client.on("room-list-update", () => {
       const roomList = Room.getRoomList(); 
       const response = roomList.map(room => {
         room.player1 = Player.getPlayerInfos(room.firstPlayer);
@@ -34,7 +41,23 @@ module.exports = function (io) {
       io.emit("room-list-update", response);
     })
 
-    client.on("onquit", async () => {
+    client.on("create-new-board", async username => {
+      const room = await Room.insertRoom(username);  
+      const roomList = Room.getRoomList();
+      const response = roomList.map((room) => {
+        const p = Player.getPlayerInfos(room.firstPlayer);
+        room.player1 = Player.toOject(p);
+        if (room.secondPlayer != "") {
+          const pp = Player.getPlayerInfos(room.secondPlayer);
+          room.player2 = Player.toOject(pp);
+        }
+        return room;
+      });
+      console.log(response);
+      io.emit("room-list-update", response);
+    })
+
+    client.on("user-offline", async () => {
       await Player.clearUserOnlineList();
     });
 
@@ -49,16 +72,54 @@ module.exports = function (io) {
     },
 
     createPage: (req, res, next) => {
+      const username = req.session.passport.user;
       res.render("create", {
         navId: 2,
+        username,
       });
+    },
+    boardPage: (req, res, next) => {
+      let isFull = false;
+      let room = null;
+      if (req.params.hasOwnProperty("id")) {
+        const id = req.params.get("id");
+        console.log("Board id: " + id);
+        room = Player.getRoomById(id);
+      } else {
+        const username = req.session.passport.user;
+        room = Player.getRoomOfPlayer(username);
+      }
+      if (room) {
+        const p = Player.getPlayerInfos(room.firstPlayer);
+        room.player1 = Player.toOject(p);
+        if (room.secondPlayer != "") {
+          const pp = Player.getPlayerInfos(room.secondPlayer);
+          room.player2 = Player.toOject(pp);
+          isFull = true;
+        }
+        res.render("board", {
+          navId: 2,
+          username,
+          room,
+          isFull
+        });
+      } else {
+        res.redirect("/")
+      }
+    },
+    createBoard: (req, res, next) => {
+      res.redirect("/board");
     },
     rankPage: (req, res, next) => {
+      const username = req.session.passport.user;
+      const rankList = null;
       res.render("rank", {
         navId: 3,
+        username,
+        rankList,
       });
     },
-    profilePage: async (req, res, next) => { 
+    profilePage: async (req, res, next) => {
       const playerObj = Player.getPlayerInfos(req.session.passport.user);
       res.render("profile", {
         navId: 4,
@@ -67,24 +128,20 @@ module.exports = function (io) {
           fullname: playerObj.fullname,
           nickname: playerObj.nickname,
           avatar: playerObj.avatar,
-          color: playerObj.color
+          color: playerObj.color,
         },
       });
-    }
-    ,
+    },
     updateProfilePage: async (req, res, next) => {
       const playerObj = Player.getPlayerInfos(req.session.passport.user);
       let imageFromServer = [];
       if (playerObj.get_img_src) {
-        const response = await fetch(
-          `https://localhost:3113/get-image-src`,
-          {
-            method: "post",
-            headers: {
-              "Content-Type": "application/json",
-            }, 
-          }
-        );
+        const response = await fetch(`https://localhost:3113/get-image-src`, {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -95,18 +152,18 @@ module.exports = function (io) {
       const directory = path.join(__dirname, "./../public/uploads");
       for (const filename of fs.readdirSync(directory)) {
         filenameArr.push(`./src_game/public/uploads/${filename}`);
-      } 
+      }
       filenameArr = filenameArr.concat(imageFromServer);
       res.render("update_profile", {
         navId: 4,
-        profile:  {
+        profile: {
           username: playerObj.username,
           fullname: playerObj.fullname,
           nickname: playerObj.nickname,
           get_img_src: playerObj.get_img_src ? "true" : "false",
           avatar: playerObj.avatar,
           color: playerObj.color,
-          images: filenameArr
+          images: filenameArr,
         },
       });
     },
@@ -128,10 +185,10 @@ module.exports = function (io) {
           username: player.username,
           fullname: player.fullname == "" ? null : player.fullname,
           nickname: player.nickname != player.username ? player.nickname : null,
-          avatar: player.avatar
-        })
+          avatar: player.avatar,
+        }),
       });
-      res.redirect("/profile" );
+      res.redirect("/profile");
     },
     logOut: async (req, res, next) => {
       if (req.session.hasOwnProperty("passport")) {

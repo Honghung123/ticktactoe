@@ -40,13 +40,37 @@
          "id": 1,
          "firstPlayer": "un1",
          "secondPlayer": "un2",
-         "viewers": []
+         "viewers": [],
+         "player1": {
+            "username": "un1",
+            "fullname": "Hong Hung",
+            "nickname": "honghung123",
+            "avatar": "https://localhost:3113/./src_auth/public/uploads/1.png",
+            "get_img_src": true,
+            "color": "lime"
+         },
+         "player2": {
+            "username": "un2",
+            "fullname": "User Two",
+            "nickname": "un2",
+            "avatar": "https://localhost:3113/./src_auth/public/uploads/2.png",
+            "get_img_src": true,
+            "color": "lime"
+         }
       },
       {
          "id": 2,
          "firstPlayer": "un3",
          "secondPlayer": "",
-         "viewers": []
+         "viewers": [],
+         "player1": {
+            "username": "un3",
+            "fullname": "",
+            "nickname": "honghung123",
+            "avatar": "https://localhost:3113/./src_auth/public/uploads/3.png",
+            "get_img_src": true,
+            "color": "lime"
+         }
       }
    ],
    "rank_list": [
