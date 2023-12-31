@@ -52,7 +52,7 @@ require("./src_game/config/passport")(app);
 const io = new Server(server);
   
 // Login
-const loginRegistration = require("./src_game/routers/authorization.r")(io);
+const loginRegistration = require("./src_game/routers/authorization.r")();
 app.use("/", loginRegistration);
       
 const authorization = require("./src_game/middlewares/authorization");

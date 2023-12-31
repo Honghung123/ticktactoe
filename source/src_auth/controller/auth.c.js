@@ -18,7 +18,7 @@ function getRegisterPage(req, res, next) {
 }
 async function postLoginPage(req, res, next) {
   const username = req.body.username;
-  const password = req.body.password;
+  const password = req.body.password.toString();
   const user = await User.findUserByUsername(username);
   if (await comparePassword(password, user.password)) {
     const token = createToken({ username: user.username });
@@ -29,7 +29,7 @@ async function postLoginPage(req, res, next) {
 }
 
 async function postRegisterPage(req, res, next) {
-  const hashedPassword = hashPassword(req.body.password);
+  const hashedPassword = await hashPassword(req.body.password.toString());
   req.body.password = hashedPassword;
   const result = await User.insertUser(req.body);
   if (result) {

@@ -46,7 +46,7 @@
                 <form class="d-flex column-gap-2" id="general-chat-form">
                     <input type="text" id="general-chat-input" class="form-control" placeholder="Enter text here..."
                         required>
-                    <button class="btn btn-info text-white" type="submit">Send</button>
+                    <button class="btn btn-info text-white" id="general-submit-btn">Send</button>
                 </form>
             </div>
         </div>
@@ -54,7 +54,8 @@
 </div>
 <script>
     const client = io();
-    client.emit('player-has-online', {});
+    const username = $("#username").html()
+    client.emit('player-has-online', username);
 
     client.on('update-player-online-list', (data) => {
         let playerOnlineList = data.map((player) => {
@@ -69,14 +70,14 @@
         $('#player-online-list').html(playerOnlineList.join(''));
     });
 
-    function renderMessage(message, areYou, nickname) {
+    function renderMessage(message, areYou, nickname, image) {
         const now = new Date();
         const hours = now.getHours();
         const minutes = now.getMinutes();
         const hh_mm = (hours < 10 ? '0' : '') + hours + ':' + (minutes < 10 ? '0' : '') + minutes;
         const html = `<li class="${areYou? 'left' : ''}">
                         <div class="message-data">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
+                            <img src="${image}" alt="avatar">
                             <span class="username">${nickname}</span>
                         </div>
                         <div class="message">${message}
@@ -86,9 +87,8 @@
         $('#general-chatting')[0].innerHTML += html;
     }
 
-    const $generalForm = $("#general-chat-form");
-    const username = $("#username").html()
-    $generalForm.on("submit", e => {
+    const $generalForm = $("#general-chat-form"); 
+    $generalForm.on("submit",e => { 
         e.preventDefault();
         let message = $("#general-chat-input").val()
         if (message != "") {
@@ -100,6 +100,8 @@
     });
     // Capture broadcast messages from the server
     client.on('general-chatting', (data) => {
-        renderMessage(data.message, data.areYou, data.nickname);
+        console.log(data); 
+        const areYou = $("#username").html().trim() == data.username;
+        renderMessage(data.message, areYou, data.nickname, data.image);
     });
 </script>

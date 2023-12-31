@@ -23,21 +23,11 @@
             "avatar": "./src_auth/public/uploads/2.png"
          },
          "maxAge": "1800",
-         "permissions": []
-      },
-      {
-         "username": "un3",
-         "password": {},
-         "profile": {
-            "nickname": "hong",
-            "fullname": "hong hung",
-            "avatar": "./src_auth/public/uploads/3.png"
-         },
          "permissions": [
             "nickname",
-            "fullname"
-         ],
-         "maxAge": "1800"
+            "fullname",
+            "avatar"
+         ]
       }
    ]
 }

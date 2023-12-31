@@ -3,10 +3,10 @@
       {
          "username": "un2",
          "profile": {
-            "avatar": null,
-            "nickname": null,
-            "fullname": null,
-            "get_img_src": false
+            "avatar": "https://localhost:3113/./src_auth/public/uploads/2.png",
+            "nickname": "un2",
+            "fullname": "User Two",
+            "get_img_src": true
          },
          "color": "lime"
       },
@@ -19,11 +19,21 @@
             "get_img_src": true
          },
          "color": "lime"
+      },
+      {
+         "username": "un3",
+         "profile": {
+            "avatar": "https://localhost:3113/./src_auth/public/uploads/3.png",
+            "nickname": "honghung123",
+            "fullname": null,
+            "get_img_src": true
+         },
+         "color": "lime"
       }
    ],
    "online_list": [
-      "un2",
-      "un1"
+      "un1",
+      "un2"
    ],
    "rank_list": [
       {

@@ -1,32 +1,33 @@
 const Player = require("../model/player.m");
 
-module.exports = function (io) {
+module.exports = function (io){
+  io.on("connection", (client) => {
+    client.on("player-has-online", async (username) => {
+      console.log("Update");
+      await Player.insertPlayerToOnlineList(username);
+      const playerOnlineList = Player.getPlayerOnlineList();
+      const playerInfoList = playerOnlineList.map((playerName) => {
+        return Player.getPlayerInfos(playerName);
+      });
+      io.emit("update-player-online-list", playerInfoList);
+    });
+  
+    client.on("general-chatting", (data) => { 
+      const player = Player.getPlayerInfos(data.username);
+      data.nickname = player.nickname;
+      data.image = player.avatar;
+      console.log(data);
+      io.emit("general-chatting", data); 
+    });
+
+    client.on("onquit", async () => {
+      await Player.clearUserOnlineList();
+    });
+  });
   const playerController = {
-    // Login - Register
-    loginRegisterPage: (req, res, next) => {
-      res.render("login_register");
-    },
+    
 
     homePage: (req, res, next) => {
-      io.on("connection", (client) => {
-        client.on("player-has-online", () => {
-          const playerOnlineList = Player.getPlayerOnlineList();
-          const playerInfoList = playerOnlineList.map((playerName) => {
-            return Player.getPlayerInfos(playerName);
-          });
-          io.emit("update-player-online-list", playerInfoList);
-        });
-
-        client.on("general-chatting", (data) => {
-          data.areYou = false;
-          if (data.username == req.session.passport.user) {
-            data.areYou = true;
-          }
-          data.nickname = Player.getPlayerInfos(data.username).nickname;
-          console.log(data);
-          io.emit("general-chatting", data);
-        });
-      });
       const username = req.session.passport.user;
       res.render("home", {
         navId: 1,

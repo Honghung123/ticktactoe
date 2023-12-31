@@ -62,4 +62,8 @@ module.exports = class Player {
   static getPlayerOnlineList() {
     return db.getPlayerOnlineList();
   }
+
+  static async clearUserOnlineList() {
+    return await db.clearUserOnlineList();
+  }
 };

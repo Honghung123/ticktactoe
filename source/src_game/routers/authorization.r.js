@@ -1,11 +1,10 @@
 const express = require("express");
 const routers = express.Router();
+const authController = require("./../controller/authorizer.c");
 const passport = require("passport");
 
-
-module.exports = function (io) {
-  const gameController = require("./../controller/game.c")(io);
-  routers.get("/login", gameController.loginRegisterPage);
+module.exports = function () {
+  routers.get("/login", authController.loginRegisterPage);
   routers.get(
     "/authorize",
     passport.authenticate("custom-strategy", {
@@ -17,4 +16,4 @@ module.exports = function (io) {
     }
   );
   return routers;
-}
+};

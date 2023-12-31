@@ -42,6 +42,11 @@ async function insertPlayerToOnlineList(username) {
   }
 }
 
+async function clearUserOnlineList() {
+  data.online_list = [];
+  await saveToFile(data);
+}
+
 async function removePlayerFromOnlineList(username) {
   const idx = data.online_list.findIndex((p) => {
     return p.username = username;
@@ -63,4 +68,5 @@ module.exports = {
   insertPlayerToOnlineList,
   removePlayerFromOnlineList,
   getPlayerOnlineList,
+  clearUserOnlineList,
 };
