@@ -1,47 +1,48 @@
 Tên: Đàm Hồng Hưng  - 21120461
-git log --graph -p > gitlog.txt
 
-- Đánh giá điểm: 0 điểm
+- Đánh giá điểm: 4 điểm
 
 ✓ 1 điểm: hoàn thành server Auth như yêu cầu.
+Tự đánh giá: 0.5 điểm
 
 
 ✓ 1 điểm: chức năng đăng ký tài khoản với xử lý validate username bằng AJAX 
 và lưu trữ password đúng tiêu chuẩn.
-
+Tự đánh giá: 0.5 điểm
 
 ✓ 1 điểm: chức năng đăng nhập và đăng xuất của server Game như yêu cầu.
-
+Tự đánh giá: 0.5 điểm
 
 ✓ 1 điểm: trang chủ server Game với bố cục hợp lý đầy đủ thông tin danh sách 
 người đang online (phải hiển thị được), danh sách Bàn game, khung chat 
 trang chủ, navbar cơ bản cho các chức năng yêu cầu (tạo Bàn chơi, xem bảng 
 xếp hạng,…).
-
+Tự đánh giá: 0.5 điểm
 
 ✓ 1 điểm: quản lý profile người chơi (thay đổi avatar bao gồm mặc định của 
 server Game và avatar lấy từ Auth nếu được phép, thay đổi hình ảnh quân cờ, 
 bàn cờ, thay đổi nickname,…)
-
+Tự đánh giá: 0.5 điểm
 
 ✓ 1 điểm: chức năng chat với người dùng đang đăng nhập (hiển thị tức thì nội 
 dung trong khung chat) ở trang chủ.
-
+Tự đánh giá: 0.75 điểm
 
 ✓ 1 điểm: chức năng chat trong Bàn game
-
+Tự đánh giá: 0.75 điểm
 
 ✓ 1 điểm: tạo Bàn game với lựa chọn thời gian giới hạn mỗi nước cờ, kích 
 thước và hình ảnh bàn cờ, quân cờ. Mỗi người dùng chỉ được tạo duy nhất 
 1 Bàn game tại 1 thời điểm, cho phép truy cập nhanh Bàn game của mình thông qua navbar.
-
+Tự đánh giá: 0 điểm
 
 ✓ 1 điểm: tham gia Bàn game với vai trò chủ Bàn game thì chờ duyệt người 
 chơi và điều khiển bắt đầu chơi, nếu vai trò khách thì xin tham gia chơi nếu 
 chưa bắt đầu, ngược lại thì theo dõi trò chơi.
-
+Tự đánh giá: 0 điểm
 
 ✓ 1 điểm: xử lý chơi luân phiên và có thời gian giới hạn cho mỗi nước đi.
-
+Tự đánh giá: 0 điểm
 
 ✓ 1 điểm: xử lý thắng hoặc hòa, kết thúc Bàn game và tính điểm cho người chơi.
+Tự đánh giá: 0 điểm
