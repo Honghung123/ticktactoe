@@ -6,6 +6,7 @@ const fs = require("fs");
 module.exports = function (io) {
   io.on("connection", (client) => {
     client.on("player-has-online", async (username) => {
+      console.log("User online: " + username);
       await Player.insertPlayerToOnlineList(username);
       const playerOnlineList = Player.getPlayerOnlineList();
       const playerInfoList = playerOnlineList.map((playerName) => {
@@ -25,7 +26,9 @@ module.exports = function (io) {
       const player = Player.getPlayerInfos(data.username);
       data.nickname = player.nickname;
       data.image = player.avatar;
-      io.emit("room-chatting", data);
+      console.log("Send message to client");
+      console.log(data);
+      io.to(data.roomID).emit("room-chatting", data);
     });
 
     client.on("room-list-update", () => {
@@ -36,29 +39,32 @@ module.exports = function (io) {
           room.player2 = Player.getPlayerInfos(room.secondPlayer);
         }
         return room;
-      });
-      console.log(response);
+      }); 
       io.emit("room-list-update", response);
     })
 
-    client.on("create-new-board", async username => {
-      const room = await Room.insertRoom(username);  
+    client.on("create-new-board", async (username) => { 
+      const room = await Room.insertRoom(username);   
       const roomList = Room.getRoomList();
       const response = roomList.map((room) => {
         const p = Player.getPlayerInfos(room.firstPlayer);
         room.player1 = Player.toOject(p);
-        if (room.secondPlayer != "") {
+        if (room?.secondPlayer) {
           const pp = Player.getPlayerInfos(room.secondPlayer);
           room.player2 = Player.toOject(pp);
         }
         return room;
-      });
-      console.log(response);
+      }); 
       io.emit("room-list-update", response);
     })
 
-    client.on("user-offline", async () => {
-      await Player.clearUserOnlineList();
+    client.on("join-room", (roomId) => {
+      client.join(roomId);
+    })
+
+    client.on("user-offline", async (username) => {
+      console.log("User offline: " + username);
+      await Player.removePlayerFromOnlineList(username);
     });
 
   });
@@ -80,9 +86,9 @@ module.exports = function (io) {
     },
     boardPage: (req, res, next) => {
       let isFull = false;
-      let room = null;
-      if (req.params.hasOwnProperty("id")) {
-        const id = req.params.get("id");
+      let room = null; 
+      if (req.query?.id) {
+        const id = req.query.id;
         console.log("Board id: " + id);
         room = Player.getRoomById(id);
       } else {
@@ -92,14 +98,15 @@ module.exports = function (io) {
       if (room) {
         const p = Player.getPlayerInfos(room.firstPlayer);
         room.player1 = Player.toOject(p);
-        if (room.secondPlayer != "") {
+        if (room.secondPlayer) { 
           const pp = Player.getPlayerInfos(room.secondPlayer);
           room.player2 = Player.toOject(pp);
           isFull = true;
         }
+        console.log(room); 
         res.render("board", {
           navId: 2,
-          username,
+          username: req.session.passport.user,
           room,
           isFull
         });
@@ -108,6 +115,7 @@ module.exports = function (io) {
       }
     },
     createBoard: (req, res, next) => {
+      console.log("Redirect to Board");
       res.redirect("/board");
     },
     rankPage: (req, res, next) => {
@@ -197,7 +205,6 @@ module.exports = function (io) {
           await Player.removePlayerFromOnlineList(username);
         }
       }
-
       req.logout((err) => {
         if (err) {
           return next(err);

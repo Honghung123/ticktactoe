@@ -21,62 +21,30 @@
          "color": "lime"
       },
       {
-         "username": "un3",
+         "username": "un4",
          "profile": {
             "avatar": "https://localhost:3113/./src_auth/public/uploads/3.png",
-            "nickname": "honghung123",
+            "nickname": "test",
             "fullname": null,
             "get_img_src": true
          },
          "color": "lime"
       }
    ],
-   "online_list": [
-      "un1",
-      "un2"
-   ],
-   "room_list": [
-      {
-         "id": 1,
-         "firstPlayer": "un1",
-         "secondPlayer": "un2",
-         "viewers": [],
-         "player1": {
-            "username": "un1",
-            "fullname": "Hong Hung",
-            "nickname": "honghung123",
-            "avatar": "https://localhost:3113/./src_auth/public/uploads/1.png",
-            "get_img_src": true,
-            "color": "lime"
-         },
-         "player2": {
-            "username": "un2",
-            "fullname": "User Two",
-            "nickname": "un2",
-            "avatar": "https://localhost:3113/./src_auth/public/uploads/2.png",
-            "get_img_src": true,
-            "color": "lime"
-         }
-      },
-      {
-         "id": 2,
-         "firstPlayer": "un3",
-         "secondPlayer": "",
-         "viewers": [],
-         "player1": {
-            "username": "un3",
-            "fullname": "",
-            "nickname": "honghung123",
-            "avatar": "https://localhost:3113/./src_auth/public/uploads/3.png",
-            "get_img_src": true,
-            "color": "lime"
-         }
-      }
-   ],
+   "online_list": [],
+   "room_list": [],
    "rank_list": [
       {
-         "username": "un2",
+         "username": "un123",
          "score": 100
+      },
+      {
+         "username": "un245",
+         "score": 444
+      },
+      {
+         "username": "un276",
+         "score": 245
       }
    ]
 }

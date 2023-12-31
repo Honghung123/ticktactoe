@@ -83,8 +83,10 @@ function getRoomList() {
 }
 
 function generateRoomId() {
-  let maxId = 0;
+  let maxId = 1;
+  console.log(data.room_list);
   for (const room of data.room_list) { 
+    console.log(room);
     if (room.id > maxId) { 
       maxId = room.id;
     }
@@ -92,11 +94,11 @@ function generateRoomId() {
   return maxId;
 }
 
-async function insertRoom(player) {
-  const id = generateRoomId();
+async function insertRoom(username) {
+  const id = generateRoomId(); 
   const insertRoom = {
-    id: id,
-    firstPlayer: player.username,
+    id: id + 1,
+    firstPlayer: username,
     secondPlayer: null,
     viewers: []
   }

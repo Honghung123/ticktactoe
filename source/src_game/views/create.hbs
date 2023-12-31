@@ -3,9 +3,9 @@
     <div id="background">
 <div class="container">
     <h1>Tạo bàn game</h1>
-    <span id="username">{{username}}</span>
+    <span id="username" class="d-none">{{username}}</span>
     <div class="card border-0">
-        <form action="/create" id="board-ticktack-form" method="post">
+        <form action="/create" id="board-ticktac-form" method="post">
             <input type="hidden" name="username" value="{{username}}">
             <div class="form-field">
                 <label for="">Thời gian giới hạn mỗi nước cờ(Chưa làm): </label>
@@ -19,15 +19,17 @@
             </div>
             <div class="form-field">
                 <label for="">Chọn kích thước bàn cờ(Chưa làm):</label>
-                <input type="radio" name="size" id="size"> 3*3
+                <input type="radio" name="size" id="size" checked> 3*3
             </div>
             <div class="form-field">
-                Hình ảnh bàn cờ (Chưa làm)
+                Hình ảnh bàn cờ (Chưa làm): Default
             </div>
             <div class="form-field">
-                Màu cờ: 
+                Màu cờ: <span class="text-warning fw-bold">Yellow</span>
             </div>
-            <button type="submit" class="btn btn-info mt-3">Tạo ngay</button>
+            <div class="text-center">
+            <button type="submit" class="btn btn-info mt-3 text-white">Tạo ngay</button>
+            </div>
         </form>
     </div>
 </div>
@@ -36,8 +38,14 @@
 <script>
     const client = io();
     const username = $("#username").html().trim();
-    $("#board-ticktack-form").on("submit", function(e)){
+    client.emit('player-has-online', username);
+    $("#board-ticktac-form").on("submit", function(e){
         e.preventDefault();
-        io.emit("create-new-board", username);
-    }
+        client.emit("create-new-board", username);
+        this.submit();
+    });
+    $(window).on("beforeunload", function () {
+            console.log("Navigate to other craete");
+            client.emit("user-offline", username);
+    });
 </script>

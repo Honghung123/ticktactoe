@@ -2,6 +2,8 @@
 <div class="container">
     <div id="background">
         <div id="board-game">
+            <span class="d-none" id="username">{{username}}</span>
+            <span class="d-none" id="roomId">{{room.id}}</span>
             <div class="player-section center-left">
                 <div class="player-info {{#if isFull}}active{{/if}}">
                     <img src="{{room.player1.avatar}}" class="avatar border-grad size-ss" />
@@ -41,36 +43,75 @@
                     <h3 class="m-3 fs-4 text-white text-typing-animation">General room chatting</h3>
                 </div>
                 <div class="chat-history">
-                    <ul id="message-room">
+                    <ul id="room-chatting">
                         <li class="left">
                             <div class="message-data">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
+                                <img src="{{room.player1.avatar}}" alt="avatar">
                                 <span class="username mlr-1 fw-bold">{{room.player1.nickname}}</span>
                             </div>
                             <div class="message"> Hi everyone! Welcome to my room. Cheer!!!
                                 <span class="message-time">10:10</span>
                             </div>
-                        </li>
-                        {{!-- <li class="">
-                            <div class="message-data">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
-                                <span class="username mlr-1 fw-bold">Anonymous</span>
-                            </div>
-                            <div class="message">Are we ready to start?
-                                <span class="message-time">10:12</span>
-                            </div>
-                        </li> --}}
+                        </li>                        
                     </ul>
                 </div>
                 <div class="chat-input">
-                    <form class="d-flex column-gap-2">
-                        <input type="text" class="form-control" placeholder="Enter text here..." required>
+                    <form class="d-flex column-gap-2" id="room-chat-form">
+                        <input type="text" class="form-control" id="room-chat-input" placeholder="Enter text here..." required>
                         <button class="btn btn-info text-white" type="submit">Send</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-</div> 
+</div>
 <script src="./src_game/public/js/room.js">
+</script>
+<script>
+    const client = io();
+    const username = $("#username").html();
+    const roomID = parseInt($("#roomId").html());
+
+    client.emit('join-room', roomID);
+    client.emit('player-has-online', username);
+    function renderMessage(message, areYou, nickname, image) {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        const hh_mm = (hours < 10 ? '0' : '') + hours + ':' + (minutes < 10 ? '0' : '') + minutes;
+        const html = `<li class="${areYou ? 'left' : ''}">
+                        <div class="message-data">
+                            <img src="${image}" alt="avatar">
+                            <span class="username mlr-1 fw-bold">${nickname}</span>
+                        </div>
+                        <div class="message">${message}
+                            <span class="message-time">${hh_mm}</span>
+                        </div>
+                    </li>` ;
+        $('#room-chatting')[0].innerHTML += html;
+    }
+
+    const $roomForm = $("#room-chat-form");
+    console.log(username)
+    console.log(roomID)
+    $roomForm.on("submit", e => {
+        e.preventDefault();
+        let message = $("#room-chat-input").val()
+        if (message != "") {
+            const data = { message, username, roomID }
+            console.log(data);
+            client.emit('room-chatting', data);
+            $("#room-chat-input").val("");
+        }
+    });
+    // Capture broadcast messages from the server
+    client.on('room-chatting', (data) => {
+        console.log(data);
+        const areYou = $("#username").html().trim() == data.username;
+        renderMessage(data.message, areYou, data.nickname, data.image);
+    });
+    $(window).on("beforeunload", function () {
+            console.log("Navigate to other board");
+            client.emit("user-offline", username);
+        });
 </script>

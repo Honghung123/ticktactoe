@@ -33,7 +33,7 @@ module.exports = class Player {
     }
   }
 
-  static toOject(player) {
+  static toOject(player) {  
     return {
       username: player.username,
       fullname: player.fullname,
@@ -72,11 +72,7 @@ module.exports = class Player {
 
   static getPlayerOnlineList() {
     return db.getPlayerOnlineList();
-  }
-
-  static async clearUserOnlineList() {
-    return await db.clearUserOnlineList();
-  }
+  } 
 
   static async updateProfile(profile) {
     const data = await db.updatePlayer(profile);
@@ -95,6 +91,7 @@ module.exports = class Player {
 
   static getRoomOfPlayer(username) {
     const room = db.getRoomOfPlayer(username);
+    console.log(room);
     return {
       id: room.id,
       firstPlayer: room.firstPlayer,

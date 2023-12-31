@@ -756,3 +756,10 @@ span {
 .form-field{
   margin: 1rem 0;
 }
+
+#board-ticktac-form{
+      padding: 3rem;
+    border: 1px solid;
+    border-radius: 1rem;
+    margin: 3rem;
+}

@@ -18,16 +18,26 @@
          "username": "un2",
          "password": "$2b$10$bOXS0/4FwT0mPLlaTGv5kONpAeykSH92rNZXJO3Ic1tthoG204poe",
          "profile": {
-            "nickname": "un2",
+            "nickname": "Zero hi",
             "fullname": "User Two",
             "avatar": "./src_auth/public/uploads/2.png"
          },
          "maxAge": "1800",
          "permissions": [
             "nickname",
-            "fullname",
             "avatar"
          ]
+      } ,
+      {
+         "username": "un4",
+         "password": "$2b$10$R5Ato88A.xNEoErAwSkVaOa4MeFdgn1TP74.T5saQpNgpTpecbg3q",
+         "profile": {
+            "nickname": "test",
+            "fullname": "Sa sdf sf",
+            "avatar": "./src_auth/public/uploads/3.png"
+         },
+         "permissions": [],
+         "maxAge": "1800"
       }
    ]
 }
