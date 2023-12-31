@@ -5,8 +5,8 @@
          "password": "$2b$10$bOXS0/4FwT0mPLlaTGv5kONpAeykSH92rNZXJO3Ic1tthoG204poe",
          "profile": {
             "nickname": "honghung123",
-            "fullname": "User One",
-            "avatar": "./src_auth/public/uploads/3.png"
+            "fullname": "Hong Hung",
+            "avatar": "./src_auth/public/uploads/1.png"
          },
          "permissions": [
             "nickname",

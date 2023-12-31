@@ -17,5 +17,6 @@ routers.get("/credential", authController.getCredentialPage);
 routers.post("/user-validate", authController.findUserByUsername)
 routers.post("/get-user-by-token", authController.getUserByToken); 
 routers.post("/get-image-src", authController.getImageSource); 
+routers.post("/update-user", authController.updateUserInfo);
 
 module.exports = routers;

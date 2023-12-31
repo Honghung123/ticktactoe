@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark gradient-custom">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">Tick Tac Toe</a>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left links -->
             <ul class="navbar-nav me-auto d-flex flex-row mt-3 mt-lg-0">
                 <li class="nav-item text-center mx-2 mx-lg-1">
@@ -31,16 +31,25 @@
                 </li>
             </ul>
 
-
-            <div class="profile text-end">
-                <div class="profile-user">
-                    <span class="profile-title">Honghung123</span>
-                    <img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="avatar">
-                </div>
-                <a href="/logout" class="btn btn-danger btn-custom mt-1"><i class="fa-solid fa-right-from-bracket"></i>
-                    Logout</a>
+            <ul class="navbar-nav me-auto d-flex flex-row mt-3 mt-lg-0">
+                <li class="nav-item text-center mx-2 mx-lg-1">
+                    <a class="nav-link" data-id="4" href="/profile">
+                        <div>
+                            <i class="fa-regular fa-address-card"></i>
+                        </div>
+                        Thay đổi Profile
+                    </a>
+                </li>
+        </ul>
+        <div class="profile text-end">
+            <div class="profile-user">
+                <span class="profile-title">Honghung123</span>
+                <img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="avatar">
             </div>
+            <a href="/logout" class="btn btn-danger btn-custom mt-1"><i class="fa-solid fa-right-from-bracket"></i>
+                Logout</a>
         </div>
+    </div>
     </div>
 </nav>
 <!-- Navbar -->

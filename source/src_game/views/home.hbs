@@ -33,7 +33,7 @@
                     </li> --}}
                     <li class="">
                         <div class="message-data">
-                            <img src="./src_game/public/default/main.png" alt="avatar">
+                            <img src="./src_game/public/uploads/main.png" alt="avatar">
                             <span class="username">Admin</span>
                         </div>
                         <div class="message">Welcome to the general chat!
@@ -51,11 +51,45 @@
             </div>
         </div>
     </div>
+    <div class="game-area mt-5">
+        <h1>Danh sách bàn game</h1>
+        <div class="my-grid" id="room-list">
+            {{!-- <a href="/board/123" class="game-board">
+                <p class="text-center p-2 mb-2">Waiting</p>
+                <div class="board-info d-flex">
+                    <div class="userInfo">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="avatar size-ss" alt=""
+                            srcset="">
+                        <p>Player</p>
+                    </div>
+                    <div class="userInfo">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="avatar size-ss" alt=""
+                            srcset="">
+                        <p>Player</p>
+                    </div>
+                </div>
+            </a>
+            <a href="/board/123" class="game-board">
+                <p class="text-center p-2 mb-2">Waiting</p>
+                <div class="board-info d-flex">
+                    <div class="userInfo">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="avatar size-ss" alt=""
+                            srcset="">
+                        <p>Player</p>
+                    </div>
+                    <div class="userInfo">
+                        <p class="pt-4">Waiting...</p>
+                    </div>
+                </div>
+            </a> --}}
+        </div>
+    </div>
 </div>
 <script>
     const client = io();
     const username = $("#username").html()
     client.emit('player-has-online', username);
+    client.emit('room-list-update');
 
     client.on('update-player-online-list', (data) => {
         let playerOnlineList = data.map((player) => {
@@ -75,7 +109,7 @@
         const hours = now.getHours();
         const minutes = now.getMinutes();
         const hh_mm = (hours < 10 ? '0' : '') + hours + ':' + (minutes < 10 ? '0' : '') + minutes;
-        const html = `<li class="${areYou? 'left' : ''}">
+        const html = `<li class="${areYou ? 'left' : ''}">
                         <div class="message-data">
                             <img src="${image}" alt="avatar">
                             <span class="username">${nickname}</span>
@@ -87,21 +121,44 @@
         $('#general-chatting')[0].innerHTML += html;
     }
 
-    const $generalForm = $("#general-chat-form"); 
-    $generalForm.on("submit",e => { 
+    const $generalForm = $("#general-chat-form");
+    $generalForm.on("submit", e => {
         e.preventDefault();
         let message = $("#general-chat-input").val()
         if (message != "") {
             const data = { message, username }
             console.log(data);
             client.emit('general-chatting', data);
-            $("#general-chat-input").val(""); 
+            $("#general-chat-input").val("");
         }
     });
     // Capture broadcast messages from the server
     client.on('general-chatting', (data) => {
-        console.log(data); 
+        console.log(data);
         const areYou = $("#username").html().trim() == data.username;
         renderMessage(data.message, areYou, data.nickname, data.image);
+    });
+
+    client.on('room-list-update', (data) => {
+        console.log(data);
+        let rooms = data.map((room) => {
+            let html = ''
+            let sub = room.player2 ? `<img src="${room.player2.avatar}" class="avatar size-ss" alt="" srcset="">
+                        <p>${room.player2.nickname}</p>` :  `<p class="pt-4">Waiting...</p>`
+            html = `<a href="/board/${room.id}" class="game-board">
+                <p class="text-center p-2 mb-2">${room.player2 ? "Playing" : "Waiting"}</p>
+                <div class="board-info d-flex">
+                    <div class="userInfo">
+                        <img src="${room.player1.avatar}" class="avatar size-ss" alt="" srcset="">
+                        <p>${room.player1.nickname}</p>
+                    </div>
+                    <div class="userInfo">
+                        ${ sub }
+                    </div>
+                </div>
+            </a>`
+            return html;
+        });
+        $('#room-list')[0].innerHTML += rooms.join('');
     });
 </script>

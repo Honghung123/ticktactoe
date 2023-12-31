@@ -185,13 +185,20 @@ async function getUserByToken(req, res, next) {
 
 async function getImageSource(req, res, next) {
   const filenameArr = [];
+  const directory = path.join(__dirname, "./../public/uploads");
   for (const filename of fs.readdirSync(directory)) {
     filenameArr.push(filename);
   }
   const images = filenameArr.map((file) => {
     return `https://localhost:3113/src_auth/public/uploads/${file}`;
   });
-  return JSON.stringify(images);
+  res.json(images);
+}
+
+async function updateUserInfo(req, res, next) {  
+  const user = req.body; 
+  await User.updateUser(user);
+  res.json(user);
 }
 
 module.exports = {
@@ -209,4 +216,5 @@ module.exports = {
   getCredentialPage,
   getUserByToken,
   getImageSource,
+  updateUserInfo,
 };

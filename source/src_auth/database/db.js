@@ -19,13 +19,22 @@ async function insertUser(user) {
 }
 
 async function updateUser(user) {
+  const prefix = "https://localhost:3113";
   let updateUser = null;
   for (let i = 0; i < data.user_list.length; i++) { 
     if (data.user_list[i].username == user.username) { 
       updateUser = data.user_list[i];
-      data.user_list[i].profile.nickname = user.nickname;
-      data.user_list[i].profile.fullname = user.fullname;
-      data.user_list[i].profile.avatar = user.avatar;
+      if (user?.nickname) {
+        data.user_list[i].profile.nickname = user.nickname;
+      }
+      if (user?.fullname) {
+        data.user_list[i].profile.fullname = user.fullname;
+      }
+      if (user.avatar.startsWith(prefix)) {
+        data.user_list[i].profile.avatar = user.avatar.replace(prefix, "")+ ".";
+      } else {
+        data.user_list[i].profile.avatar = user.avatar;
+      }
       break;
     }
   }

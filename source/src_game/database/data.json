@@ -13,9 +13,9 @@
       {
          "username": "un1",
          "profile": {
-            "avatar": "https://localhost:3113/./src_auth/public/uploads/3.png",
+            "avatar": "https://localhost:3113/./src_auth/public/uploads/1.png",
             "nickname": "honghung123",
-            "fullname": null,
+            "fullname": "Hong Hung",
             "get_img_src": true
          },
          "color": "lime"
@@ -34,6 +34,20 @@
    "online_list": [
       "un1",
       "un2"
+   ],
+   "room_list": [
+      {
+         "id": 1,
+         "firstPlayer": "un1",
+         "secondPlayer": "un2",
+         "viewers": []
+      },
+      {
+         "id": 2,
+         "firstPlayer": "un3",
+         "secondPlayer": "",
+         "viewers": []
+      }
    ],
    "rank_list": [
       {

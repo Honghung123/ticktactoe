@@ -26,13 +26,21 @@ async function insertPlayer(player) {
 }
 
 async function updatePlayer(player) {
+  let updatedPlayer = null;
   for (let i = 0; i < data.player_list.length; i++){
     if (data.player_list[i].username == player.username) {
-      data.player_list[i] = player;
+      data.player_list[i].color = player.color;
+      if (player?.fullname) {
+        data.player_list[i].profile.fullname = player.fullname;
+      }
+      data.player_list[i].profile.nickname = player.nickname;
+      data.player_list[i].profile.avatar = player.avatar;
+      data.player_list[i].color = player?.color || "lime";
+      updatePlayer = data.player_list[i];
     }
   } 
   await saveToFile(data);
-  return data;
+  return updatePlayer;
 }
 
 async function insertPlayerToOnlineList(username) {
@@ -61,6 +69,42 @@ function getPlayerOnlineList() {
   return data.online_list;
 }
 
+function getRoomById(id) {
+  for (const room of data.room_list) {
+    if (room.id == id) {
+      return room;
+    }
+  }
+  return null;
+}
+
+function getRoomList() {
+  return data.room_list;
+}
+
+function generateRoomId() {
+  let maxId = 0;
+  for (const room of data.room_list) { 
+    if (room.id > maxId) { 
+      maxId = room.id;
+    }
+  }
+  return maxId;
+}
+
+async function insertRoom(player) {
+  const id = generateRoomId();
+  const insertRoom = {
+    id: id,
+    firstPlayer: player.username,
+    secondPlayer: null,
+    viewers: []
+  }
+  data.room_list.push(insertRoom);
+  await saveToFile(data);
+  return insertRoom;
+}
+
 module.exports = {
   getPlayerInfos,
   insertPlayer,
@@ -69,4 +113,8 @@ module.exports = {
   removePlayerFromOnlineList,
   getPlayerOnlineList,
   clearUserOnlineList,
+
+  getRoomById,
+  getRoomList,
+  insertRoom
 };

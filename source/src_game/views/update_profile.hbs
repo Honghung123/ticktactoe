@@ -1,0 +1,52 @@
+{{> navbar }}
+<div class="container">
+    <h1 class="mt-5 mb-4">Cập nhật profile</h1>
+    <div class="row column-gap-3">
+        <div class="card-body">
+            <form action="update-profile" method="post">
+                <input type="hidden" name="username" value="{{profile.username}}">
+                <input type="hidden" name="get_img_src" value="{{profile.get_img_src}}">
+                {{#if profile.fullname}}
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Full name:</label>
+                    <input class="p-1 rounded-3" name="fullname" type="text" value="{{profile.fullname}}" required>
+                </div>
+                {{/if}}
+                <hr>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Nickname: </label>
+                    <input class="p-1 rounded-3" type="text" name="nickname" value="{{profile.nickname}}" required>
+                </div>
+                <hr>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Màu cờ: </label>
+                    <select class="form-select w-25 d-inline-block" name="color" required>
+                        <option value="red" style="background-color: red;" selected> Red </option>
+                        <option value="lime" style="background-color: lime;">Lime </span></option>
+                        <option value="yellow" style="background-color: yellow;">Yellow </option>
+                        <option value="pink" style="background-color: pink;"> Pink </option>
+                        <option value="blue" style="background-color: blue;"> Blue </option>
+                    </select>
+                </div>
+                <hr>
+                <div class="mb-3 form-check p-0">
+                    <label for="">Choose your avatar:</label>
+                    <div class="d-flex flex-wrap gap-2">
+                        {{#each profile.images}}
+                        <div class="my-border custom-field">
+                            <input class="form-check-input my-border" type="radio" name="avatar" value="{{this}}"
+                                required>
+                            <img src="{{this}}" class="custom-profile">
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+                <hr>
+                <div class="text-center">
+                    <a href="/profile" class="btn btn-danger d-inline-block m-4 mb-0">Cancel</a>
+                    <button type="submit" class="btn btn-primary m-4 mb-0">Cập nhật</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

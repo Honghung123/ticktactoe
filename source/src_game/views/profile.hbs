@@ -1,0 +1,48 @@
+{{> navbar }}
+<div class="container">
+    <h1 class="mt-5 mb-4">Quản lí profile</h1>
+    <div class="row column-gap-3">
+        <div class="card mb-4 col-md-4">
+            <div class="card-body text-center">
+                <img src="{{profile.avatar}}" class="rounded-circle img-fluid" style="width: 150px;">
+                <h5 class="my-3">Username: {{profile.username}}</h5>
+                <p class="text-muted mb-1">A lazy player who not left any infomation here.</p>
+                <p class="text-muted mb-4">No address to display</p>
+            </div>
+        </div>
+        <div class="card mb-4 col-md-7">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p class="mb-0">Full Name</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <p class="text-muted mb-0">{{profile.fullname}}</p>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p class="mb-0">Nickname</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <p class="text-muted mb-0">{{profile.nickname}}</p>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p class="mb-0">Màu cờ</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <p class="text-muted mb-0"><span class="box-custom medium" style="background-color: {{profile.color}};"></span></p>
+                    </div>
+                </div>
+                <hr>
+                <div class="change text-center mt-5">
+                    <a href="/update-profile" class="btn btn-info text-white">Update profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
