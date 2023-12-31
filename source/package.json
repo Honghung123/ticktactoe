@@ -5,7 +5,9 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "concurrently \"nodemon server_auth.js\" \"nodemon server_game.js\""
+        "start": "concurrently \"node server_auth.js\" \"node server_game.js\"",
+        "dev": "concurrently \"nodemon server_auth.js\" \"nodemon server_game.js\""
+        
     },
     "author": "",
     "license": "ISC",

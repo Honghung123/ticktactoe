@@ -11,7 +11,7 @@ routers.get(
     failureRedirect: "/login",
   }),
   (req, res) => {
-    res.redirect("/");
+    res.redirect("/login");
   }
 );
 

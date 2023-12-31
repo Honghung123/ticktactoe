@@ -30,23 +30,24 @@ module.exports = class CustomStrategy extends Strategy {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      const data = await response.json();
-      console.log(data);
+      const data = await response.json(); 
       if (data) {
         username = data.username;
-        await Player.insertPlayerIfNotExists(data);
+        await Player.insertOrUpdatePlayer(data);
         await Player.insertPlayerToOnlineList(username);
       }
     }
     // Call this.success(user, info) if authentication is successful
     // Call this.fail(info) if authentication fails
     this.verify(username, (err, result) => {
+      console.log("Checked verify");
       if (err) {
         this.fail(`Error to authenticate: ${err}`);
       }
       if (!result) {
         this.fail(`Failed to authenticate:`);
       } else {
+        console.log("Verified");
         this.success(result, "Verify successfully!");
       }
     });

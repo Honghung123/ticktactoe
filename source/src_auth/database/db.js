@@ -11,8 +11,7 @@ function findUserByUsername(username) {
   return null;
 }
 
-async function insertUser(user) {
-  console.log(user);
+async function insertUser(user) { 
   data.user_list.push(user);
   dataJSON = JSON.stringify(data, null, 3);
   await fs.writeFile(path.join(__dirname, "data.json"), dataJSON, "utf-8");

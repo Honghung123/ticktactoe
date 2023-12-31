@@ -5,37 +5,46 @@ const data = require("./data.json");
 async function saveToFile(data) {
   await fs.writeFile(
     path.join(__dirname, "data.json"),
-    JSON.stringify(data, null, 2),
+    JSON.stringify(data, null, 3),
     "utf-8"
   );
 }
 
-function getUserInfos(username) {
-  for (const user of data.user_list) {
-    if (user.username == username) {
-      return user;
+function getPlayerInfos(username) {
+  for (const player of data.player_list) {
+    if (player.username == username) {
+      return player;
     }
   }
   return null;
 }
 
-async function insertPlayer(user) {
-  data.user_list.push(user);
-  const dataJSON = JSON.stringify(data);
-  await saveToFile(dataJSON);
-  return null;
+async function insertPlayer(player) {
+  data.player_list.push(player); 
+  await saveToFile(data);
+  return data;
+}
+
+async function updatePlayer(player) {
+  for (let i = 0; i < data.player_list.length; i++){
+    if (data.player_list[i].username == player.username) {
+      data.player_list[i] = player;
+    }
+  } 
+  await saveToFile(data);
+  return data;
 }
 
 async function insertPlayerToOnlineList(username) {
   if (!data.online_list.includes(username)) {
-    data.online_list.push(user);
-    const dataJSON = JSON.stringify(data);
-    await saveToFile(dataJSON);
+    data.online_list.push(username); 
+    await saveToFile(data);
   }
 }
 
 module.exports = {
-  getUserInfos,
+  getPlayerInfos,
   insertPlayer,
+  updatePlayer,
   insertPlayerToOnlineList,
 };

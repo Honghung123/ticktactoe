@@ -49,7 +49,7 @@ async function postRequestPage(req, res, next) {
   const token = req.body.token;
   const user = getUserFromToken(token);
   const maxAge = req.body.maxage;
-  const permissions = req.body.permission;
+  const permissions = req.body?.permission || [];
   const result = await User.updatePermissions(
     user.username,
     permissions,
@@ -153,7 +153,6 @@ async function findUserByUsername(req, res, next) {
 
 async function getUserByToken(req, res, next) {
   const token = req.body.token;
-  console.log("Go get user by token ");
   const userToken = await getUserFromToken(token);
   if (userToken != null) {
     const username = userToken.username;
@@ -164,21 +163,23 @@ async function getUserByToken(req, res, next) {
         maxAge: user.maxAge,
         get_img_src: false
       };
-      if (user.permissions.contains("fullname")) {
+      if (user.permissions.includes("fullname")) {
         dto.fullname = user.fullname
       }
-      if (user.permissions.contains("nickname")) { 
+      if (user.permissions.includes("nickname")) { 
         dto.nickname = user.nickname
       }
-      if (user.permissions.contains("avatar")) { 
-        dto.avatar = user.avatar
+      if (user.permissions.includes("avatar")) { 
+        dto.avatar = `https://localhost:3113/${user.avatar}`
         dto.get_img_src = true;
-      }
-      console.log(dto);
-      return dto;
+      } 
+      res.json(dto);
+    } else {
+      res.json({});
     }
-  } 
-  return null;
+  } else {
+    res.json({});
+  }
 }
 
 async function getImageSource(req, res, next) {

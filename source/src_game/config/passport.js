@@ -3,24 +3,24 @@ const CustomStrategy = require("./strategy");
 const flash = require("express-flash");
 const Player = require("../model/player.m");
 
-passport.serializeUser((user, done) => {
-  console.log("Call this serializeUser method");
-  console.log(user);
+passport.serializeUser((user, done) => { 
   done(null, user);
 });
 passport.deserializeUser(async (username, done) => {
-  // Retrieve the user from the database using the id
-  const userObj = null;
-  if (userObj != null) {
-    done(null, userObj);
+  // Retrieve the user from the database using the username 
+  const player = await Player.getPlayerInfos(username);
+  if (player != null) { 
+    done(null, player);
+  } else {
+    done("Invalid user", null);
   }
 });
 
 const verifyCallback = async (username, done) => {
   if (username != null) {
     const player = await Player.getPlayerInfos(username);
-    if (user != null) {
-      return done(null, player);
+    if (player != null) {
+      return done(null, player.username);
     }
   }
   return done(null, false);

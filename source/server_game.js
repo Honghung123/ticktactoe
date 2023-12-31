@@ -18,7 +18,7 @@ const handlebar = require("express-handlebars");
 // }
 
 // Session - Cookie
-const secretKey = process.env.SECRET_KEY;
+const secretKey = process.env.SECRET_KEY2;
 app.use(cookieParser(secretKey));
 app.use(
   session({
@@ -27,7 +27,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       secure: false,
-      maxAge: 5 * 60 * 1000,
+      maxAge: 15 * 60 * 1000,
     },
   })
 );
@@ -39,10 +39,7 @@ app.use(express.urlencoded({ extended: true }));
 app.engine(
   "hbs",
   handlebar.engine({
-    extname: "hbs",
-    helpers: {
-      eq: (a, b) => a === b,
-    },
+    extname: "hbs" 
   })
 );
 app.set("views", "./src_game/views");
@@ -68,8 +65,8 @@ app.use("/", loginRegistration);
 //   });
 // });
  
-// const authorization = require("./middlewares/authorization");
-// app.use(authorization.authorize);
+const authorization = require("./src_game/middlewares/authorization");
+app.use(authorization.authorize);
 
 // Routing
 const gameRouter = require("./src_game/routers/game.r");
