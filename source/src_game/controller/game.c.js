@@ -1,45 +1,63 @@
 const Player = require("../model/player.m");
 
-// Login - Register
-function loginRegisterPage(req, res, next) {
-  res.render("login_register");
-}  
-function homePage(req, res, next) {
-  res.render("home", {
-    navId: 1
-  });
-}
-function createPage(req, res, next) {
-  res.render("create", {
-    navId: 2,
-  });
-}
-function rankPage(req, res, next) {
-  res.render("rank", {
-    navId: 3,
-  });
-}
-async function logOut(req, res, next) {
-  if (req.session.hasOwnProperty("passport")) { 
-    if (req.session.passport.hasOwnProperty("user")) {
-      const username = req.session.passport.user;
-      await Player.removePlayerFromOnlineList(username);
-    }
-  }
+module.exports = function (io) {
+  const playerController = {
+    // Login - Register
+    loginRegisterPage: (req, res, next) => {
+      res.render("login_register");
+    },
 
-  req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
-    res.redirect("/login");
-  });
-}
+    homePage: (req, res, next) => {
+      io.on("connection", (client) => {
+        client.on("player-has-online", () => {
+          const playerOnlineList = Player.getPlayerOnlineList();
+          console.log(playerOnlineList); 
+          const playerInfoList = playerOnlineList.map( playerName => { 
+            return Player.getPlayerInfos(playerName);
+          })
+          console.log(playerInfoList);
+          io.emit("update-player-online-list", playerInfoList);
+        }); 
+      });
+      res.render("home", {
+        navId: 1,
+      });
+    },
 
-module.exports = {
-  // GET
-  loginRegisterPage, 
-  homePage,
-  createPage,
-  rankPage,
-  logOut,
+    createPage: (req, res, next) => {
+      res.render("create", {
+        navId: 2,
+      });
+    },
+    rankPage: (req, res, next) => {
+      res.render("rank", {
+        navId: 3,
+      });
+    },
+    logOut: async (req, res, next) => {
+      if (req.session.hasOwnProperty("passport")) {
+        if (req.session.passport.hasOwnProperty("user")) {
+          const username = req.session.passport.user;
+          await Player.removePlayerFromOnlineList(username);
+        }
+      }
+
+      req.logout((err) => {
+        if (err) {
+          return next(err);
+        }
+        res.redirect("/login");
+      });
+    },
+  };
+  return playerController;
 };
+
+// module.exports = {
+//   // GET
+//   loginRegisterPage,
+//   homePage,
+//   createPage,
+//   rankPage,
+//   logOut,
+// };

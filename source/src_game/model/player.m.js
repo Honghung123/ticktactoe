@@ -1,10 +1,11 @@
 const db = require("../database/db");
+const default_url_image = "./src_game/public/default/main.png";
 module.exports = class Player {
   constructor(player) {
     this.username = player.username;
     this.fullname = player.profile?.fullname || "No display";
-    this.nickname = player.profile?.nickname || "No display";
-    this.avatar = player.profile.avatar;
+    this.nickname = player.profile?.nickname || player.username;
+    this.avatar = player.profile?.avatar || default_url_image;
     this.get_img_src = player.profile.get_img_src;
     this.color = player.color;
   }
@@ -23,8 +24,8 @@ module.exports = class Player {
     return entity;
   }
 
-  static async getPlayerInfos(username) {
-    const data = await db.getPlayerInfos(username);
+  static getPlayerInfos(username) {
+    const data = db.getPlayerInfos(username);
     if (data) {
       return new Player(data);
     } else {
@@ -35,8 +36,7 @@ module.exports = class Player {
   static async insertPlayerIfNotExists(player) {
     const p = await db.getPlayerInfos(player.username);
     if (!p) {
-      const entity = Player.getEntity(player);
-      console.log(entity);
+      const entity = Player.getEntity(player); 
       await db.insertPlayer(entity);
     }
   }
@@ -57,5 +57,9 @@ module.exports = class Player {
 
   static async removePlayerFromOnlineList(username) {
     await db.removePlayerFromOnlineList(username);
+  }
+
+  static getPlayerOnlineList() {
+    return db.getPlayerOnlineList();
   }
 };

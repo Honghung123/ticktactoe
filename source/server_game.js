@@ -47,29 +47,19 @@ app.set("view engine", "hbs");
 
 require("./src_game/config/passport")(app);
 
-// Login
-const loginRegistration = require("./src_game/routers/authorization.r");
-app.use("/", loginRegistration);
 
 // Socket io
-// const io = new Server(server);
-// io.on("connection", (client) => {
-//   client.on("chanel1", (data) => {
-//     console.log(
-//       `Client(${data.username}) sent to server with message: ${data.message}`
-//     );
-//     io.emit("chanel1", data);
-//   });
-//   client.on("disconnect", () => {
-//     console.log("Client disconnected");
-//   });
-// });
- 
+const io = new Server(server);
+  
+// Login
+const loginRegistration = require("./src_game/routers/authorization.r")(io);
+app.use("/", loginRegistration);
+      
 const authorization = require("./src_game/middlewares/authorization");
-app.use(authorization.authorize);
+// app.use(authorization.authorize);
 
 // Routing
-const gameRouter = require("./src_game/routers/game.r");
+const gameRouter = require("./src_game/routers/game.r")(io);
 app.use("/", gameRouter);
 
 // Middleware

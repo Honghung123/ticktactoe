@@ -52,10 +52,15 @@ async function removePlayerFromOnlineList(username) {
   } 
 }
 
+function getPlayerOnlineList() { 
+  return data.online_list;
+}
+
 module.exports = {
   getPlayerInfos,
   insertPlayer,
   updatePlayer,
   insertPlayerToOnlineList,
   removePlayerFromOnlineList,
+  getPlayerOnlineList,
 };

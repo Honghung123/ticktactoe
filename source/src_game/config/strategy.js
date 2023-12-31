@@ -35,24 +35,21 @@ module.exports = class CustomStrategy extends Strategy {
         username = data.username;
         await Player.insertOrUpdatePlayer(data);
         await Player.insertPlayerToOnlineList(username);
-        const maxAge = parseInt(data.maxAge);
+        // Set expired days
+        const maxAge = parseInt(data.maxAge); 
         req.session.cookie._expires = new Date(Date.now() + maxAge);
-        req.session.cookie.originalMaxAge = maxAge;
-        console.log(maxAge);
-        console.log(req.session);
+        req.session.cookie.originalMaxAge = maxAge; 
       }
     }
     // Call this.success(user, info) if authentication is successful
     // Call this.fail(info) if authentication fails
-    this.verify(username, (err, result) => {
-      console.log("Checked verify");
+    this.verify(username, (err, result) => { 
       if (err) {
         this.fail(`Error to authenticate: ${err}`);
       }
       if (!result) {
         this.fail(`Failed to authenticate:`);
-      } else {
-        console.log("Verified");
+      } else { 
         this.success(result, "Verify successfully!");
       }
     });

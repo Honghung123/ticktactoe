@@ -3,21 +3,14 @@
     <div class="grid-chat chat-app mt-3">
         <div id="plist" class="people-list">
             <h3 class="fs-4 pb-3">Player online list</h3>
-            <ul class="list-unstyled chat-list mt-2 mb-0">
-                <li class="clearfix">
+            <ul class="list-unstyled chat-list mt-2 mb-0" id="player-online-list">
+                {{!-- <li class="clearfix">
                     <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="avatar">
                     <div class="about">
                         <div class="name">Vincent Porter</div>
                         <div class="status online">Online</div>
                     </div>
-                </li>
-                <li class="clearfix">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="avatar">
-                    <div class="about">
-                        <div class="name">Aiden Chavez</div>
-                        <div class="status online">Online</div>
-                    </div>
-                </li>
+                </li>  --}}
 
             </ul>
         </div>
@@ -57,3 +50,21 @@
         </div>
     </div>
 </div>
+<script>
+    const socket = io();
+    socket.emit('player-has-online', {});
+
+    socket.on('update-player-online-list', (data) => {
+        console.log(data);
+        let playerOnlineList = data.map((player) => {
+            return `<li class="clearfix">
+                    <img src="${player.avatar}" class="avatar">
+                    <div class="about">
+                        <div class="name">${player.nickname}</div>
+                        <div class="status online">Online</div>
+                    </div>
+                </li>`
+        });
+        $('#player-online-list').html(playerOnlineList.join(''));
+    });
+</script>
